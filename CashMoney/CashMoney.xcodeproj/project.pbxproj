@@ -523,6 +523,7 @@
 				AE1547EE1BCDE175008EDCAF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AE1547EF1BCDE175008EDCAF /* Build configuration list for PBXNativeTarget "CashMoneyTests" */ = {
 			isa = XCConfigurationList;
@@ -531,6 +532,7 @@
 				AE1547F11BCDE175008EDCAF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AE1547F21BCDE175008EDCAF /* Build configuration list for PBXNativeTarget "CashMoneyUITests" */ = {
 			isa = XCConfigurationList;
@@ -539,6 +541,7 @@
 				AE1547F41BCDE175008EDCAF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
