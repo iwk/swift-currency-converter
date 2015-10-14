@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<!-- saved from url=(0049)http://ustwo.github.io/fancy-pages/ios-developer/ -->
+<html class="wf-lora-n4-active wf-lora-i4-active wf-lora-n7-active wf-active"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>iOS Developer</title>
+  <meta name="description" content="">
+
+  <link rel="stylesheet" href="./instructions_files/main.css">
+  <link rel="canonical" href="http://ustwo.github.io/fancy-pages//ios-developer/">
+  <link rel="alternate" type="application/rss+xml" title="Fancy Pages" href="http://ustwo.github.io/fancy-pages//feed.xml">
+
+  <script src="./instructions_files/webfont.js" type="text/javascript" async=""></script><script type="text/javascript">
+  WebFontConfig = {
+    google: { families: [ 'Lora:400,400italic,700:latin' ] }
+  };
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+      '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+  })(); 
+</script>
+<link rel="stylesheet" href="./instructions_files/css" media="all"><style>.theme-bg:after{background-size:39px;}</style></head>
+
+
+  <body>
+
+    <!-- <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/fancy-pages//">Fancy Pages</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/fancy-pages//android-developer/">Android Developer</a>
+          
+        
+          
+        
+          
+        
+          
+          <a class="page-link" href="/fancy-pages//ios-developer/">iOS Developer</a>
+          
+        
+          
+        
+          
+          <a class="page-link" href="/fancy-pages//sample-page/">Sample Page</a>
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+ -->
+
+    <div class="page-content theme-bg buseca-1" style="background-color: rgb(143, 191, 183);">
+      <div class="wrapper theme-paper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">iOS Developer</h1>
+  </header>
+
+  <article class="post-content">
+    <h3 id="a-short-test-project-for-ios-developers">A short test project for iOS developers</h3>
+
+<p>We want you to build a simple single-screen currency converter app.</p>
+
+<ol>
+  <li>Make a new git repo and check it into GitHub</li>
+  <li>
+    <p>Make the repo public.</p>
+
+    <p>From now on, please commit frequently and write meaningful commit messages.</p>
+  </li>
+  <li>
+    <p>For this test, we want you to build a simple single-screen currency converter app using Swift 2.0.</p>
+
+    <p>A note: You might not yet be as proficient in Swift as you are in Objective-C. We totally understand that but we have a project going that uses Swift so we’ve decided to make Swift a requirement for this test. There will be time for you to get up to speed with Swift during the project but you should at least be starting to learn it now. Fill us in with where you’re at with learning Swift when you submit the test (details for that below).</p>
+
+    <ul>
+      <li>The app should work on any device running iOS 9</li>
+      <li>The app should look like the UI mockup below on an iPhone 6 and should be usable different screen sizes.</li>
+      <li>Please avoid third party libraries if you can help it. We’d like to be able to just open it in XCode and run it in the iOS Simulator.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>The font is Helvetica (56pt max, scaling down dynamically as required eg. for really big numbers).</p>
+
+<p>UPDATE: Yes, we know that Helvetica requires an very expensive license if you want to use it for a project. We don’t want you to buy a license. Do what you can with a freely available version of a font that looks like Helvetica. We won’t be publishing this app anywhere and will get someone to redo this in a different font to avoid confusion in the future.</p>
+
+<p>Design assets: <a href="https://drive.google.com/file/d/0B-DwkpP2a-nSNDVtckhwSXFqSnc/view?usp=sharing">https://drive.google.com/file/d/0B-DwkpP2a-nSNDVtckhwSXFqSnc/view?usp=sharing</a></p>
+
+<p><img src="./instructions_files/large.jpg" alt="Design mockup" width="288"></p>
+
+<p>The single view has two interactive elements:</p>
+
+<ol>
+  <li>A text field with which the user specifies the amount of AUD to convert from. The app always converts <em>from</em> AUD. When the user interacts with the field, the app should show-and-hide the system keyboard as necessary.</li>
+  <li>
+    <p>A custom component with which the user selects the currency to convert <em>to</em>, by swiping left or right. The currencies to choose from are: CAD, EUR, GBP, JPY, USD.</p>
+
+    <p>Whenever the user changes the amount or currency, the field at the bottom should update. This field should be formatted correctly for the currency.</p>
+
+    <p>The app should fetch exchange rates from the open API provided by <a href="http://fixer.io/">Fixer.io</a>. It only needs to fetch rates once, at launch. For the purposes of this test, don’t worry about network error handling. In particular, feel free to assume that Fixer.io is always available, and always returns a well-formed response.</p>
+  </li>
+  <li>Using XCTest, write a test for the UI to verify that when there is an amount specified in the AUD field, and the user selects a currency, the field at the bottom displays a figure.</li>
+  <li>Push all work to GitHub and send the URL of the repo on GitHub to kynan[[AT]]ustwo.com. Feel free to include some comments - anything you think could be improved with this test.</li>
+</ol>
+
+<p>Finally, don’t be daunted. We have a friendly team of developers in here. If you have any problems, please feel free to get in touch. We’ll be happy to help you past any potholes you might be stuck in. At the very least we’ll be able to point you in the right direction.</p>
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <!-- <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Fancy Pages</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <li>Fancy Pages</li>
+          <li><a href="mailto:hello@ustwo.com">hello@ustwo.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/ustwo">
+              <span class="icon  icon--github">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                </svg>
+              </span>
+
+              <span class="username">ustwo</span>
+            </a>
+          </li>
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text"></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+ -->
+    <script type="text/javascript" src="./instructions_files/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="./instructions_files/Please.min.js"></script>
+<script type="text/javascript" src="./instructions_files/scripts.js"></script>
+
+  
+
+
+</body></html>
