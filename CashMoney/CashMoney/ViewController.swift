@@ -47,9 +47,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     duplicated .
     empty string
     max length
+    double out of range
     */
-    
-    
     func textFieldDidChange(textField:UITextField){
         
         print("=========")
