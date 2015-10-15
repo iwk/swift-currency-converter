@@ -15,7 +15,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     var inputNumber:Double = 10.00008
     
-    let inputTextCharLimit = 30
+    let INPUT_CHAR_LIMIT = 20
+    let DECIMAL_LIMIT = 8
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,14 +39,17 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     
     
+    
     /* sepcial cases:
     non number characters
     trailing decimial 0
     trailing .
-    diplicated .
+    duplicated .
     empty string
     max length
     */
+    
+    
     func textFieldDidChange(textField:UITextField){
         
         print("=========")
@@ -53,6 +57,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         var processedText:String = ""
         var outputText:String = ""
         var trailingDecimalZero = 0
+        var decimalPlace = 0
 
         print("inputText: "+inputText)
         
@@ -71,17 +76,25 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     processedText.append(c)
                 }
             } else {
-                //append character
-                processedText.append(c)
-                
-                //count decimal 0
-                if (c == "0" && isDecimal)
-                {
-                    trailingDecimalZero++
-                } else
-                {
-                    trailingDecimalZero = 0
+                if (isDecimal) {
+                    decimalPlace++
                 }
+                
+                if (decimalPlace <= DECIMAL_LIMIT)
+                {
+                    //append character
+                    processedText.append(c)
+                    
+                    //count decimal 0
+                    if (c == "0" && isDecimal)
+                    {
+                        trailingDecimalZero++
+                    } else
+                    {
+                        trailingDecimalZero = 0
+                    }
+                }
+
             }
         }
         
@@ -96,32 +109,40 @@ class ViewController: UIViewController, UITextFieldDelegate {
             processedText = "0"
         }
         
-        let newNumber:Double = Double.init(processedText)!
-        print("processed number: \(newNumber)")
-        
-        
         //format display
         let lastChar = processedText.substringFromIndex(processedText.endIndex.predecessor())
         let formatter = NSNumberFormatter()
         formatter.numberStyle = .CurrencyStyle
-        formatter.minimumSignificantDigits = 0
+        //formatter.minimumSignificantDigits = 0
         formatter.maximumSignificantDigits = 99
+        formatter.maximumFractionDigits = 8
         formatter.locale = NSLocale(localeIdentifier: "en_US")
+        
+        
+        var processedNumber:Double = Double.init(processedText)!
+        processedNumber = floor(processedNumber*100000000)/100000000
+        
+        //processedNumber = Double(processedNumber).floorToPlaces(10)
+        print("processed number: \(processedNumber)")
+        
+        
+        
         
         if (lastChar == ".")
         {
             //format tailing .
-            processedText = formatter.stringFromNumber(newNumber)!
+            processedText = formatter.stringFromNumber(processedNumber)!
             processedText = processedText + "."
         } else
         if (lastChar == "0" && isDecimal)
         {
             //format tailing decimial 0
-            processedText = formatter.stringFromNumber(newNumber)!
+            
+            processedText = formatter.stringFromNumber(processedNumber)!
             print("processedText: "+processedText)
             
             //prevent formatter from removing .0 while user is still entering 0
-            if (newNumber % 1 == 0)
+            if (processedNumber % 1 == 0)
             {
                 processedText = processedText+"."
             }
@@ -129,13 +150,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
             //append trailing zeros
             for var i = 0; i < trailingDecimalZero; i++ {
                 processedText = processedText+"0"
+                print("add 0")
             }
             
             
         }else
         {
             //format normal case
-            processedText = formatter.stringFromNumber(newNumber)!
+            processedText = " "+formatter.stringFromNumber(processedNumber)!
             
             
         }
@@ -144,6 +166,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         outputText = processedText
         print("outputText: "+outputText)
         textField.text = outputText
+        
     }
     
     
@@ -181,20 +204,24 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     
-    /*
+    
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
     //test new string by NSString function
     let newCharacter:NSString = NSString(string: string)
     let originalString:NSString = NSString(string: txtInputAmount.text!)
     let newString = originalString.stringByReplacingCharactersInRange(range, withString: newCharacter as String)
     
-    var isStringValid:Bool = checkStringFormat(newString)
     
-    
-    
-    return isStringValid
+        if (newString.characters.count > INPUT_CHAR_LIMIT)
+        {
+            return false
+        } else
+        {
+            return true
+        }
+        
     }
-    */
+    
     
     
     
@@ -239,3 +266,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
 }
 
+/*
+extension Double {
+    /// Rounds the double to decimal places value
+    func floorToPlaces(places:Int) -> Double {
+        let divisor = pow(10.0, Double(places))
+        return floor(self * divisor) / divisor
+    }
+}*/
