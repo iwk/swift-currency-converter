@@ -13,7 +13,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var txtInputAmount: UITextField!
     
-    var inputNumber:Double = 10.8;
+    var inputNumber:Double = 10.00008
+    
+    let inputTextCharLimit = 30
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,32 +36,114 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
     }
     
+    
+    
+    /* sepcial cases:
+    non number characters
+    trailing decimial 0
+    trailing .
+    diplicated .
+    empty string
+    max length
+    */
     func textFieldDidChange(textField:UITextField){
         
-        let lastChar = ""
-        //let lastChar = textField.text!.substringFromIndex(textField.text!.endIndex)
-        print(textField.text)
+        print("=========")
+        let inputText:String = textField.text!
+        var processedText:String = ""
+        var outputText:String = ""
+        var trailingDecimalZero = 0
+
+        print("inputText: "+inputText)
+        
+        //filter duplicated .
+        var isDecimal = false
+        for c in inputText.characters{
+            
+            
+            
+            if ( c == ".") {
+                if (isDecimal) {
+                    //ignore duplicated .
+                } else {
+                    //append only first "."
+                    isDecimal = true
+                    processedText.append(c)
+                }
+            } else {
+                //append character
+                processedText.append(c)
+                
+                //count decimal 0
+                if (c == "0" && isDecimal)
+                {
+                    trailingDecimalZero++
+                } else
+                {
+                    trailingDecimalZero = 0
+                }
+            }
+        }
+        
+        //filter invalid characters
+        let validSet:NSCharacterSet = NSCharacterSet(charactersInString: "0123456789.")
+        processedText = processedText.stringByTrimmingCharactersInSet(validSet.invertedSet)
+        processedText = processedText.stringByReplacingOccurrencesOfString(",", withString: "")
+        
+        //empty string
+        if (processedText == "")
+        {
+            processedText = "0"
+        }
+        
+        let newNumber:Double = Double.init(processedText)!
+        print("processed number: \(newNumber)")
+        
+        
+        //format display
+        let lastChar = processedText.substringFromIndex(processedText.endIndex.predecessor())
+        let formatter = NSNumberFormatter()
+        formatter.numberStyle = .CurrencyStyle
+        formatter.minimumSignificantDigits = 0
+        formatter.maximumSignificantDigits = 99
+        formatter.locale = NSLocale(localeIdentifier: "en_US")
+        
         if (lastChar == ".")
         {
-            
+            //format tailing .
+            processedText = formatter.stringFromNumber(newNumber)!
+            processedText = processedText + "."
         } else
+        if (lastChar == "0" && isDecimal)
         {
+            //format tailing decimial 0
+            processedText = formatter.stringFromNumber(newNumber)!
+            print("processedText: "+processedText)
             
-            //replace string
-            var newText:String = textField.text!.stringByReplacingOccurrencesOfString(",", withString: "")
-            newText = newText.stringByReplacingOccurrencesOfString("$", withString: "")
+            //prevent formatter from removing .0 while user is still entering 0
+            if (newNumber % 1 == 0)
+            {
+                processedText = processedText+"."
+            }
             
-            let formatter = NSNumberFormatter()
-            formatter.numberStyle = .CurrencyStyle
-            //formatter.generatesDecimalNumbers = false
-            formatter.minimumSignificantDigits = 0
-            formatter.locale = NSLocale(localeIdentifier: "en_US")
+            //append trailing zeros
+            for var i = 0; i < trailingDecimalZero; i++ {
+                processedText = processedText+"0"
+            }
             
-            //let newNumber:NSNumber = formatter.numberFromString(newText)!
-            //print(newNumber)
             
-            //textField.text = formatter.stringFromNumber(newNumber)
+        }else
+        {
+            //format normal case
+            processedText = formatter.stringFromNumber(newNumber)!
+            
+            
         }
+        
+        //show text
+        outputText = processedText
+        print("outputText: "+outputText)
+        textField.text = outputText
     }
     
     
@@ -146,7 +230,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         formatter.numberStyle = .CurrencyStyle
         
         formatter.locale = NSLocale(localeIdentifier: "en_US")
-        print(inputNumber)
+        //print(inputNumber)
         txtInputAmount.text = formatter.stringFromNumber(inputNumber)
         
     }
