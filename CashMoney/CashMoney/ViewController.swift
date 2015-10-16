@@ -10,6 +10,7 @@ import UIKit
 
 class ViewController: UIViewController, UITextFieldDelegate {
     
+    @IBOutlet weak var txtOutputAmount: UITextField!
     
     @IBOutlet weak var txtInputAmount: UITextField!
     
