@@ -22,18 +22,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="Vt3-oc-rjk"/>
                                     <constraint firstAttribute="width" constant="191" id="q1g-1I-8ZP"/>
-                                    <constraint firstAttribute="height" constant="20" id="yal-yX-lXd"/>
                                 </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="yal-yX-lXd"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=regular">
-                                    <mask key="constraints">
-                                        <include reference="yal-yX-lXd"/>
-                                    </mask>
-                                </variation>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AUD" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NS4-Rj-bEk">
                                 <rect key="frame" x="205" y="116" width="190" height="56"/>
@@ -41,48 +30,25 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="56" id="9nY-M1-Ew1"/>
                                     <constraint firstAttribute="width" constant="190" id="F6B-ub-r6m"/>
-                                    <constraint firstAttribute="height" constant="56" id="TYB-dn-LE8"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="56"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="TYB-dn-LE8"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=regular">
-                                    <mask key="constraints">
-                                        <include reference="TYB-dn-LE8"/>
-                                    </mask>
-                                </variation>
                             </label>
                             <textField autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="6344.63" textAlignment="center" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="4Fz-4b-cxj">
                                 <rect key="frame" x="32" y="188" width="536" height="64"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="64" id="Hdo-jA-uzh"/>
-                                    <constraint firstAttribute="height" constant="63" id="slr-G5-DLc"/>
                                 </constraints>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="50"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="slr-G5-DLc"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=regular">
-                                    <mask key="constraints">
-                                        <include reference="slr-G5-DLc"/>
-                                    </mask>
-                                </variation>
                             </textField>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZNI-lf-1s9" customClass="OptionRollerControl" customModule="CashMoney" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="268" width="600" height="100"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="80" id="jzW-KG-sCK"/>
                                     <constraint firstAttribute="height" constant="100" id="ogp-2c-8m3">
                                         <variation key="heightClass=regular" constant="100"/>
                                     </constraint>
@@ -101,37 +67,16 @@
                                         <color key="value" red="0.25882352941176467" green="0.75294117647058822" blue="0.48627450980392156" alpha="1" colorSpace="calibratedRGB"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="jzW-KG-sCK"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=regular">
-                                    <mask key="constraints">
-                                        <exclude reference="jzW-KG-sCK"/>
-                                    </mask>
-                                </variation>
                             </view>
                             <textField autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="6344.63" textAlignment="center" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="FqR-wU-Qfs">
                                 <rect key="frame" x="32" y="392" width="536" height="64"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="63" id="dlg-3z-9ug"/>
                                     <constraint firstAttribute="height" constant="64" id="yNL-I7-8ET"/>
                                 </constraints>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="50"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="dlg-3z-9ug"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=regular">
-                                    <mask key="constraints">
-                                        <include reference="dlg-3z-9ug"/>
-                                    </mask>
-                                </variation>
                             </textField>
                         </subviews>
                         <animations/>
@@ -143,7 +88,6 @@
                             <constraint firstItem="vRz-2h-Yg3" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="36" id="Jil-6h-vHa"/>
                             <constraint firstItem="NS4-Rj-bEk" firstAttribute="top" secondItem="vRz-2h-Yg3" secondAttribute="bottom" constant="40" id="Khn-pp-osk"/>
                             <constraint firstAttribute="trailing" secondItem="ZNI-lf-1s9" secondAttribute="trailing" id="OS3-Jm-ua3"/>
-                            <constraint firstItem="NS4-Rj-bEk" firstAttribute="top" secondItem="vRz-2h-Yg3" secondAttribute="bottom" constant="40" id="RsD-YC-BpF"/>
                             <constraint firstItem="4Fz-4b-cxj" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="32" id="UaQ-nC-NgR"/>
                             <constraint firstItem="NS4-Rj-bEk" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="YBc-ck-D4I"/>
                             <constraint firstAttribute="trailing" secondItem="FqR-wU-Qfs" secondAttribute="trailing" constant="32" id="ZZu-W8-jVL"/>
@@ -152,16 +96,6 @@
                             <constraint firstItem="ZNI-lf-1s9" firstAttribute="top" secondItem="4Fz-4b-cxj" secondAttribute="bottom" constant="16" id="kX0-sU-HCf"/>
                             <constraint firstItem="4Fz-4b-cxj" firstAttribute="top" secondItem="NS4-Rj-bEk" secondAttribute="bottom" constant="16" id="yae-9q-DHd"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="RsD-YC-BpF"/>
-                            </mask>
-                        </variation>
-                        <variation key="heightClass=regular">
-                            <mask key="constraints">
-                                <include reference="RsD-YC-BpF"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
                         <outlet property="txtInputAmount" destination="4Fz-4b-cxj" id="rXR-E1-YAi"/>

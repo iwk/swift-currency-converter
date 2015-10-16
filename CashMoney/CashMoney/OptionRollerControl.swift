@@ -196,7 +196,7 @@ class OptionRollerControl: UIControl {
         {
             if (animated)
             {
-                UIView.animateWithDuration(0.5, animations: {
+                UIView.animateWithDuration(0.2, animations: {
                     self.optionList[i].center = CGPointMake(self.bounds.size.width/2 + CGFloat(i-self.selectedIndex) * self.optionMarginX, self.bounds.size.height/2)
                 })
             } else

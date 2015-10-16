@@ -20,6 +20,7 @@
 		AE1548001BCDE1D9008EDCAF /* Indicator_2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1547FA1BCDE1D9008EDCAF /* Indicator_2@2x.png */; settings = {ASSET_TAGS = (); }; };
 		AE1548011BCDE1D9008EDCAF /* Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1547FB1BCDE1D9008EDCAF /* Logo.png */; settings = {ASSET_TAGS = (); }; };
 		AE1548021BCDE1D9008EDCAF /* Logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1547FC1BCDE1D9008EDCAF /* Logo@2x.png */; settings = {ASSET_TAGS = (); }; };
+		AEAEAE9D1BD147CB002197E3 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAEAE9C1BD147CB002197E3 /* DataManager.swift */; settings = {ASSET_TAGS = (); }; };
 		AEF73BBA1BCFC33900DB6383 /* OptionRollerControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF73BB91BCFC33900DB6383 /* OptionRollerControl.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
@@ -60,6 +61,7 @@
 		AE1547FA1BCDE1D9008EDCAF /* Indicator_2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Indicator_2@2x.png"; sourceTree = "<group>"; };
 		AE1547FB1BCDE1D9008EDCAF /* Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Logo.png; sourceTree = "<group>"; };
 		AE1547FC1BCDE1D9008EDCAF /* Logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Logo@2x.png"; sourceTree = "<group>"; };
+		AEAEAE9C1BD147CB002197E3 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		AEF73BB91BCFC33900DB6383 /* OptionRollerControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionRollerControl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -114,6 +116,7 @@
 				AE1547F51BCDE1C3008EDCAF /* Resources */,
 				AE1547C71BCDE175008EDCAF /* AppDelegate.swift */,
 				AE1547C91BCDE175008EDCAF /* ViewController.swift */,
+				AEAEAE9C1BD147CB002197E3 /* DataManager.swift */,
 				AEF73BB91BCFC33900DB6383 /* OptionRollerControl.swift */,
 				AE1547CB1BCDE175008EDCAF /* Main.storyboard */,
 				AE1547CE1BCDE175008EDCAF /* Assets.xcassets */,
@@ -300,6 +303,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AEF73BBA1BCFC33900DB6383 /* OptionRollerControl.swift in Sources */,
+				AEAEAE9D1BD147CB002197E3 /* DataManager.swift in Sources */,
 				AE1547CA1BCDE175008EDCAF /* ViewController.swift in Sources */,
 				AE1547C81BCDE175008EDCAF /* AppDelegate.swift in Sources */,
 			);

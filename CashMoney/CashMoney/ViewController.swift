@@ -36,6 +36,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
         formatInputCurrency()
         txtInputAmount.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
         
+        DataManager.sharedInstance.loadJSONFromUrl("https://api.fixer.io/latest")
+        
     }
     
     
