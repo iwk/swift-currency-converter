@@ -12,10 +12,26 @@ import UIKit
 class OptionRollerControl: UIControl {
     
     //config
-    @IBInspectable var textColor: UIColor = UIColor(red: (74.0/255.0), green: (219.0/255), blue: (140.0/255.0), alpha: 1.0)
-    @IBInspectable var topMarginColor: UIColor = UIColor(red: (74.0/255.0), green: (219.0/255), blue: (140.0/255.0), alpha: 1.0)
-    @IBInspectable var bgColor: UIColor = UIColor(red: (74.0/255.0), green: (219.0/255), blue: (140.0/255.0), alpha: 1.0)
-    @IBInspectable var bottomMarginColor: UIColor = UIColor(red: (74.0/255.0), green: (219.0/255), blue: (140.0/255.0), alpha: 1.0)
+    @IBInspectable var textColor: UIColor = UIColor.blackColor() {
+        didSet {
+            setHightLight(selectedIndex, animated:false)
+        }
+    }
+    @IBInspectable var topMarginColor: UIColor = UIColor.clearColor() {
+        didSet {
+            self.topMargin.backgroundColor = topMarginColor
+        }
+    }
+    @IBInspectable var bgColor: UIColor = UIColor.clearColor() {
+        didSet {
+            background.backgroundColor = bgColor
+        }
+    }
+    @IBInspectable var bottomMarginColor: UIColor = UIColor.clearColor() {
+        didSet {
+            bottomMargin.backgroundColor = bottomMarginColor
+        }
+    }
     
     let optionMarginX:CGFloat = 140
     
@@ -48,21 +64,21 @@ class OptionRollerControl: UIControl {
     func addUIDeco()
     {
         //top
-        topMargin.backgroundColor = topMarginColor
         self.addSubview(topMargin)
         
         //bg
-        background.backgroundColor = bgColor
+        
         self.addSubview(background)
         
         //bottom
-        bottomMargin.backgroundColor = topMarginColor
+        
         self.addSubview(bottomMargin)
         
         //indicators
         topIndicator = UIImageView(image: UIImage(named: "Indicator_1"))
         bottomIndicator = UIImageView(image: UIImage(named: "Indicator_2"))
         self.addSubview(topIndicator)
+        
         self.addSubview(bottomIndicator)
     }
     
@@ -79,11 +95,12 @@ class OptionRollerControl: UIControl {
         addOption("USD")
         
         selectedIndex = Int(floor(Float(optionList.count/2)))
-        setHightLight(selectedIndex)
+        //setHightLight(selectedIndex)
         updateItemPosition(false)
         
         initInteractions()
     }
+    
     
     //add currency
     func addOption(optionName:String)
@@ -101,9 +118,7 @@ class OptionRollerControl: UIControl {
     
     
     
-    /*
-    HANDLING INTERACTIONS
-    */
+    //MARK:- handling interactions
     //init recognizers
     func initInteractions()
     {
@@ -130,7 +145,7 @@ class OptionRollerControl: UIControl {
         print("tapped")
         selectedIndex = gesture.view!.tag
         updateItemPosition(true)
-        setHightLight(selectedIndex)
+        setHightLight(selectedIndex, animated:true)
     }
     //swipe handler
     func respondToSwipeGesture(gesture: UIGestureRecognizer) {
@@ -153,17 +168,41 @@ class OptionRollerControl: UIControl {
     
     
     
-    /*
-    HANDLING STATE CHANGES
-    */
-    func setHightLight(index:Int)
+    
+    //MARK:- handling state changes
+    func setHightLight(index:Int, animated:Bool)
     {
         for (var i=0; i<optionList.count;i++){
             if (i == index)
             {
-                optionList[i].textColor = UIColor.whiteColor()
+                if (animated)
+                {
+                    UIView.animateWithDuration(1, animations: { () -> Void in
+                        
+                        /*[UIView transitionWithView:myLabel duration:0.25 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+                            label.textColor = [UIColor redColor];
+                            } completion:^(BOOL finished) {
+                            }];*/
+                        UIView.transitionWithView(self.optionList[i], duration: 0.25, options: UIViewAnimationOptions.TransitionNone, animations: { () -> Void in
+                            self.optionList[i].textColor = UIColor.whiteColor()
+                            }, completion: nil)
+                    })
+                } else
+                {
+                    optionList[i].textColor = UIColor.whiteColor()
+                }
+                
             } else {
-                optionList[i].textColor = textColor
+                if (animated)
+                {
+                    UIView.transitionWithView(self.optionList[i], duration: 0.25, options: UIViewAnimationOptions.TransitionNone, animations: { () -> Void in
+                        self.optionList[i].textColor = self.textColor
+                        }, completion: nil)
+                } else
+                {
+                    optionList[i].textColor = textColor
+                }
+                
             }
         }
     }
@@ -183,9 +222,23 @@ class OptionRollerControl: UIControl {
             }
         }
     }
+    func resetDeco()
+    {
+        topMargin.frame = CGRectMake(0, topIndicator.bounds.size.height/2, self.bounds.size.width, 2)
+        background.frame = CGRectMake(0, 2+topIndicator.bounds.size.height/2, self.bounds.size.width, self.bounds.size.height-1-topIndicator.bounds.height/2 - bottomIndicator.bounds.height/2)
+        bottomMargin.frame = CGRectMake(0, self.bounds.size.height-1-bottomIndicator.bounds.height/2, self.bounds.size.width, 1)
+        
+        topIndicator.center.x = self.center.x
+        
+        bottomIndicator.frame.origin.y = self.bounds.size.height - bottomIndicator.bounds.size.height
+        bottomIndicator.center.x = self.center.x
+        
+        
+    }
     
     override func layoutSubviews() {
         updateItemPosition(false)
+        resetDeco()
     }
     
     func shiftLeft()
@@ -193,7 +246,7 @@ class OptionRollerControl: UIControl {
         if (selectedIndex < optionList.count - 1)
         {
             selectedIndex += 1
-            setHightLight(selectedIndex)
+            setHightLight(selectedIndex, animated:true)
             updateItemPosition(true)
         }
     }
@@ -203,7 +256,7 @@ class OptionRollerControl: UIControl {
         if (selectedIndex > 0)
         {
             selectedIndex -= 1
-            setHightLight(selectedIndex)
+            setHightLight(selectedIndex, animated: true)
             updateItemPosition(true)
         }
     }
