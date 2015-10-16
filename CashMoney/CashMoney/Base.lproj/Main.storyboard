@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F1012" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
@@ -21,7 +21,7 @@
                                 <animations/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="AUD" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NS4-Rj-bEk">
-                                <rect key="frame" x="203" y="115" width="193" height="56"/>
+                                <rect key="frame" x="203" y="115" width="190" height="56"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="56"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -34,25 +34,34 @@
                                 <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="50"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
                             </textField>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZNI-lf-1s9" customClass="OptionRollerControl" customModule="CashMoney" customModuleProvider="target">
-                                <rect key="frame" x="20" y="258" width="240" height="128"/>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZNI-lf-1s9" customClass="OptionRollerControl" customModule="CashMoney" customModuleProvider="target">
+                                <rect key="frame" x="20" y="258" width="240" height="80"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.2627450980392157" green="0.75294117647058822" blue="0.48627450980392156" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="ogp-2c-8m3"/>
+                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="textColor">
                                         <color key="value" red="0.29019607843137252" green="0.85882352941176465" blue="0.5490196078431373" alpha="1" colorSpace="calibratedRGB"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <variation key="heightClass=regular" ambiguous="YES" misplaced="YES">
+                                    <rect key="frame" x="0.0" y="258" width="600" height="80"/>
+                                </variation>
                             </view>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" red="0.26274509800000001" green="0.80392156859999997" blue="0.51764705879999995" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="ZNI-lf-1s9" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="2wC-0T-OkM"/>
                             <constraint firstAttribute="trailing" secondItem="4Fz-4b-cxj" secondAttribute="trailing" constant="32" id="3Z5-hT-l0B"/>
                             <constraint firstItem="vRz-2h-Yg3" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="36" id="Jil-6h-vHa"/>
+                            <constraint firstAttribute="trailing" secondItem="ZNI-lf-1s9" secondAttribute="trailing" id="OS3-Jm-ua3"/>
                             <constraint firstItem="4Fz-4b-cxj" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="32" id="UaQ-nC-NgR"/>
                             <constraint firstItem="NS4-Rj-bEk" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="YBc-ck-D4I"/>
                             <constraint firstItem="vRz-2h-Yg3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="dp5-BF-idb"/>
+                            <constraint firstItem="ZNI-lf-1s9" firstAttribute="top" secondItem="4Fz-4b-cxj" secondAttribute="bottom" constant="16" id="kX0-sU-HCf"/>
                             <constraint firstItem="4Fz-4b-cxj" firstAttribute="top" secondItem="NS4-Rj-bEk" secondAttribute="bottom" constant="16" id="yae-9q-DHd"/>
                         </constraints>
                     </view>
@@ -62,7 +71,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="305" y="415"/>
+            <point key="canvasLocation" x="305" y="414.75"/>
         </scene>
     </scenes>
     <resources>
