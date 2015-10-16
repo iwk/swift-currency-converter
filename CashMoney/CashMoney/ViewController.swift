@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate {
+class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate {
     
     @IBOutlet weak var txtOutputAmount: UITextField!
     
@@ -36,10 +36,21 @@ class ViewController: UIViewController, UITextFieldDelegate {
         formatInputCurrency()
         txtInputAmount.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
         
+        DataManager.sharedInstance.delegate = self
         DataManager.sharedInstance.loadJsonFromUrl("https://api.fixer.io/latest")
+        //delegate callback -> jsonLoaded or jsonFailed
         
     }
     
+    func jsonLoaded(json: NSDictionary) {
+        print("json")
+        print(json)
+    }
+    func jsonFailed(message:String) {
+        //pop error
+        print("error message received")
+        print(message)
+    }
     
     
     
