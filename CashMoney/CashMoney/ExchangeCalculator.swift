@@ -11,7 +11,7 @@ import Foundation
 class ExchangeCalculator:NSObject {
     static let sharedInstance = ExchangeCalculator()
     private override init() {} //This prevents others from using the default '()' initializer for this class.
-
+    
     var exchangeTable:NSMutableDictionary = NSMutableDictionary()
     
     func addCurrencyWithValue(currencyCode:String, value:Double)
@@ -21,10 +21,18 @@ class ExchangeCalculator:NSObject {
     
     func getCurrencyValue(fromCurrencyCode:String, toCurrencyCode:String, amount:Double) -> Double
     {
-        let fromValue:Double = exchangeTable.objectForKey(fromCurrencyCode) as! Double
-        let toValue:Double = exchangeTable.objectForKey(toCurrencyCode) as! Double
-        
-        return amount/fromValue*toValue
+        if (exchangeTable.objectForKey(fromCurrencyCode) != nil) && (exchangeTable.objectForKey(toCurrencyCode) != nil)
+        {
+            
+            let fromValue:Double = exchangeTable.objectForKey(fromCurrencyCode) as! Double
+            let toValue:Double = exchangeTable.objectForKey(toCurrencyCode) as! Double
+            
+            return amount/fromValue*toValue
+        }
+        else
+        {
+            return Double.NaN
+        }
         
     }
 }

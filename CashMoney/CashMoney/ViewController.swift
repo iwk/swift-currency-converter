@@ -92,22 +92,33 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate,
         
         formatInputCurrency()
         convert()
+        drawDashedUnderline()
+        
     }
     
     func drawDashedUnderline()
     {
-        let bezierPath = UIBezierPath()
-        let startPoint = CGPointMake(0,250)
-        let endPoint = CGPointMake(450,250)
-        bezierPath.moveToPoint(startPoint)
-        bezierPath.addLineToPoint(endPoint)
+        let color = UIColor(red: 66/255, green: 66/255, blue: 66/255, alpha: 1).CGColor
         
-        var pattern : [CGFloat] = [10.0,10.0];
-        let dashed = CGPathCreateCopyByDashingPath (bezierPath.CGPath, nil,0,pattern,2);
+        let shapeLayer:CAShapeLayer = CAShapeLayer()
+        let frameSize = txtInputAmount.frame.size
+        let lineWidth = (frameSize.width - (frameSize.width % 18))
+        let shapeRect = CGRect(x: 0, y: 0, width: lineWidth, height: 1)
         
-        var shapeNode = SKShapeNode(path: dashed)
-        shapeNode.position = CGPointMake(100, 100)
-        self.addChild(shapeNode)
+        shapeLayer.bounds = shapeRect
+        shapeLayer.position = CGPoint(x: frameSize.width/2, y: frameSize.height)
+        shapeLayer.fillColor = color
+        shapeLayer.strokeColor = color
+        shapeLayer.lineWidth = 3
+        shapeLayer.lineJoin = kCALineJoinRound
+        shapeLayer.lineDashPattern = [10,8]
+        //for rect
+        //shapeLayer.path = UIBezierPath(roundedRect: shapeRect, cornerRadius: 5).CGPath
+        let path = UIBezierPath()
+        path.moveToPoint(CGPointMake(0, 0))
+        path.addLineToPoint(CGPointMake(lineWidth, 0))
+        shapeLayer.path = path.CGPath
+        txtInputAmount.layer.addSublayer(shapeLayer)
     }
     
     
@@ -116,7 +127,7 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate,
     //process and format input while user is editing textfield
     /* sepcial cases:
     filtering non number characters
-    enable trailing decimial 0 during input
+    enable intermediate trailing decimial 0 during input
     enable trailing .
     filter duplicated .
     format empty string

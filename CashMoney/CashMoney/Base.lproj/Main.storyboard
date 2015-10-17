@@ -42,11 +42,11 @@
                                     <constraint firstAttribute="height" constant="64" id="Hdo-jA-uzh"/>
                                 </constraints>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="50"/>
-                                <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
+                                <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="50"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numbersAndPunctuation"/>
                             </textField>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZNI-lf-1s9" customClass="OptionRollerControl" customModule="CashMoney" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="268" width="600" height="100"/>
+                                <rect key="frame" x="0.0" y="308" width="600" height="100"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="ogp-2c-8m3">
@@ -69,17 +69,17 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="ROh-A4-o9E">
-                                <rect key="frame" x="290" y="308" width="20" height="20"/>
+                                <rect key="frame" x="290" y="348" width="20" height="20"/>
                                 <animations/>
                             </activityIndicatorView>
-                            <textField autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="6344.63" textAlignment="center" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="FqR-wU-Qfs">
-                                <rect key="frame" x="32" y="392" width="536" height="64"/>
+                            <textField autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="2954.69" textAlignment="center" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="FqR-wU-Qfs">
+                                <rect key="frame" x="32" y="432" width="536" height="64"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="64" id="yNL-I7-8ET"/>
                                 </constraints>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="50"/>
+                                <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="50"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
                             </textField>
                         </subviews>
@@ -99,7 +99,7 @@
                             <constraint firstAttribute="trailing" secondItem="FqR-wU-Qfs" secondAttribute="trailing" constant="32" id="ZZu-W8-jVL"/>
                             <constraint firstItem="FqR-wU-Qfs" firstAttribute="top" secondItem="ZNI-lf-1s9" secondAttribute="bottom" constant="24" id="do0-H5-bed"/>
                             <constraint firstItem="vRz-2h-Yg3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="dp5-BF-idb"/>
-                            <constraint firstItem="ZNI-lf-1s9" firstAttribute="top" secondItem="4Fz-4b-cxj" secondAttribute="bottom" constant="16" id="kX0-sU-HCf"/>
+                            <constraint firstItem="ZNI-lf-1s9" firstAttribute="top" secondItem="4Fz-4b-cxj" secondAttribute="bottom" constant="56" id="kX0-sU-HCf"/>
                             <constraint firstItem="4Fz-4b-cxj" firstAttribute="top" secondItem="NS4-Rj-bEk" secondAttribute="bottom" constant="16" id="yae-9q-DHd"/>
                         </constraints>
                     </view>
