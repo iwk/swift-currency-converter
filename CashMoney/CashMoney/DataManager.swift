@@ -62,7 +62,6 @@ class DataManager:NSObject, NSURLConnectionDelegate {
             handleRequestSuccess(json)
             
         } catch let error as JSONError {
-            //print(error.rawValue)
             handleRequestFailed(error.rawValue)
         } catch {
             print(error)

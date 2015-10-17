@@ -8,14 +8,15 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate {
+class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate, OptionRollerDelegate {
     
     @IBOutlet weak var txtOutputAmount: UITextField!
     
     @IBOutlet weak var txtInputAmount: UITextField!
     
     @IBOutlet weak var currencyControl: OptionRollerControl!
-    var inputNumber:Double = 10.00008
+    var inputNumber:Double = 0
+    var outputNumber:Double = 0
     
     let INPUT_CHAR_LIMIT = 20
     let DECIMAL_LIMIT = 8
@@ -42,7 +43,7 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate 
         print("json")
         currencyData = json
         dispatch_async(dispatch_get_main_queue(), {
-            //need main queue to update ui and indicator
+            //main queue update ui and states
             self.initControls()
         })
     }
@@ -55,7 +56,7 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate 
     
     func initControls()
     {
-        //enable view
+        //stop loading animation
         self.activityIndicator.stopAnimating()
         
         //setup caculator model
@@ -74,17 +75,15 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate 
         
         
         //setup view
+        currencyControl.delegate = self
         for currencyCode in ["CAD", "EUR", "GBP", "JPY", "USD"]
         {
             currencyControl.addOption(currencyCode)
         }
         currencyControl.refreshView()
         
-        //test
-        print(ExchangeCalculator.sharedInstance.getCurrencyValue("AUD", toCurrencyCode: "USD", amount: 100))
         
-        
-        //interactions
+        //enable interactions
         let tap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
         view.addGestureRecognizer(tap)
         
@@ -92,6 +91,23 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate 
         txtInputAmount.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
         
         formatInputCurrency()
+        convert()
+    }
+    
+    func drawDashedUnderline()
+    {
+        let bezierPath = UIBezierPath()
+        let startPoint = CGPointMake(0,250)
+        let endPoint = CGPointMake(450,250)
+        bezierPath.moveToPoint(startPoint)
+        bezierPath.addLineToPoint(endPoint)
+        
+        var pattern : [CGFloat] = [10.0,10.0];
+        let dashed = CGPathCreateCopyByDashingPath (bezierPath.CGPath, nil,0,pattern,2);
+        
+        var shapeNode = SKShapeNode(path: dashed)
+        shapeNode.position = CGPointMake(100, 100)
+        self.addChild(shapeNode)
     }
     
     
@@ -120,10 +136,8 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate 
         
         //filter duplicated .
         var isDecimal = false
-        for c in inputText.characters{
-            
-            
-            
+        for c in inputText.characters
+        {
             if ( c == ".") {
                 if (isDecimal) {
                     //ignore duplicated .
@@ -133,10 +147,11 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate 
                     processedText.append(c)
                 }
             } else {
+                //count decimal place
                 if (isDecimal) {
                     decimalPlace++
                 }
-                
+                //count trailing zeros
                 if (decimalPlace <= DECIMAL_LIMIT)
                 {
                     //append character
@@ -160,7 +175,7 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate 
         processedText = processedText.stringByTrimmingCharactersInSet(validSet.invertedSet)
         processedText = processedText.stringByReplacingOccurrencesOfString(",", withString: "")
         
-        //empty string
+        //handle empty string
         if (processedText == "")
         {
             processedText = "0"
@@ -173,7 +188,7 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate 
         //formatter.minimumSignificantDigits = 0
         formatter.maximumSignificantDigits = 99
         formatter.maximumFractionDigits = 6
-        formatter.locale = NSLocale(localeIdentifier: "en_US")
+        formatter.currencyCode = "USD"
         
         //prevent roundup for super small double
         var processedNumber:Double = Double.init(processedText)!
@@ -224,6 +239,7 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate 
         print("outputText: "+outputText)
         textField.text = outputText
         inputNumber = processedNumber
+        convert()
     }
     
     
@@ -254,6 +270,11 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate 
     
     func textFieldDidEndEditing(textField: UITextField) {
         formatInputCurrency()
+        
+    }
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
+        textField.text = "$"
     }
     
     
@@ -277,30 +298,28 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate 
     
     
     
-    /*
-    func checkStringFormat(testString:String) -> Bool{
+    func optionDidChange(option: String) {
+        print(option)
+        convert()
+        
+        
+    }
+    
+    func convert()
+    {
+        outputNumber = ExchangeCalculator.sharedInstance.getCurrencyValue("AUD", toCurrencyCode: currencyControl.getSelectedOption(), amount: inputNumber)
+        formatOuputCurrency()
+    }
+    
+    
+    func formatOuputCurrency(){
         
         let formatter = NSNumberFormatter()
         formatter.numberStyle = .CurrencyStyle
-        formatter.locale = NSLocale(localeIdentifier: "en_US")
-        
-        let testNumber = formatter.numberFromString(testString)
-        
-        if (testString == "$")
-        {
-            inputNumber = 0
-            return true
-        }
-        
-        if (testNumber != nil) {
-            inputNumber = testNumber!.doubleValue
-            return true
-        } else {
-            return false
-        }
-        
-        
-    }*/
+        formatter.currencyCode = currencyControl.getSelectedOption()
+        formatter.maximumFractionDigits = 2
+        txtOutputAmount.text = formatter.stringFromNumber(outputNumber)
+    }
     
     
     
@@ -308,9 +327,8 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate 
         
         let formatter = NSNumberFormatter()
         formatter.numberStyle = .CurrencyStyle
-        
-        formatter.locale = NSLocale(localeIdentifier: "en_US")
-        formatter.maximumSignificantDigits = 99
+        formatter.currencyCode = "USD"
+        //formatter.maximumSignificantDigits = 99
         formatter.maximumFractionDigits = 6
         //print(inputNumber)
         txtInputAmount.text = formatter.stringFromNumber(inputNumber)

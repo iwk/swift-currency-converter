@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol OptionRollerDelegate {
+    func optionDidChange(option:String)
+}
+
 @IBDesignable 
 class OptionRollerControl: UIControl {
     
@@ -33,6 +37,8 @@ class OptionRollerControl: UIControl {
         }
     }
     
+    var delegate:OptionRollerDelegate?
+    
     let optionMarginX:CGFloat = 140
     
     var selectedIndex:Int = 2
@@ -43,6 +49,11 @@ class OptionRollerControl: UIControl {
     private var background:UIView = UIView()
     private var topIndicator:UIImageView = UIImageView(image: UIImage(named: "Indicator_1"))
     private var bottomIndicator:UIImageView = UIImageView(image: UIImage(named: "Indicator_2"))
+    
+    func getSelectedOption() -> String
+    {
+        return optionList[selectedIndex].text!
+    }
     
     //init from IB
     required init(coder aDecoder: NSCoder) {
@@ -139,6 +150,10 @@ class OptionRollerControl: UIControl {
         selectedIndex = gesture.view!.tag
         updateItemPosition(true)
         setHightLight(selectedIndex)
+        if (delegate != nil)
+        {
+            delegate?.optionDidChange(getSelectedOption())
+        }
     }
     //swipe handler
     func respondToSwipeGesture(gesture: UIGestureRecognizer) {
@@ -195,6 +210,7 @@ class OptionRollerControl: UIControl {
                 optionList[i].center = CGPointMake(self.bounds.size.width/2 + CGFloat(i-selectedIndex) * optionMarginX, self.bounds.size.height/2)
             }
         }
+        
     }
     func resetDeco()
     {
@@ -225,6 +241,10 @@ class OptionRollerControl: UIControl {
             selectedIndex += 1
             setHightLight(selectedIndex)
             updateItemPosition(true)
+            if (delegate != nil)
+            {
+                delegate?.optionDidChange(getSelectedOption())
+            }
         }
     }
     
@@ -235,6 +255,10 @@ class OptionRollerControl: UIControl {
             selectedIndex -= 1
             setHightLight(selectedIndex)
             updateItemPosition(true)
+            if (delegate != nil)
+            {
+                delegate?.optionDidChange(getSelectedOption())
+            }
         }
     }
     
