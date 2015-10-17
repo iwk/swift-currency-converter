@@ -19,6 +19,7 @@ class ExchangeCalculator:NSObject {
         exchangeTable.setObject(value, forKey: currencyCode)
     }
     
+    //convert from one currency to another
     func getCurrencyValue(fromCurrencyCode:String, toCurrencyCode:String, amount:Double) -> Double
     {
         if (exchangeTable.objectForKey(fromCurrencyCode) != nil) && (exchangeTable.objectForKey(toCurrencyCode) != nil)

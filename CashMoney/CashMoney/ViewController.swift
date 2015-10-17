@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate, OptionRollerDelegate {
     
     @IBOutlet weak var txtOutputAmount: UITextField!
@@ -23,7 +24,14 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate,
     
     var currencyData:NSDictionary?
     
+    @IBOutlet weak var controlTopConstrain: NSLayoutConstraint!
+    
+    @IBOutlet weak var textTopConstrain: NSLayoutConstraint!
+    
+    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
+    
     
     
     override func viewDidLoad() {
@@ -36,6 +44,20 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate,
         DataManager.sharedInstance.delegate = self
         DataManager.sharedInstance.loadJsonFromUrl("https://api.fixer.io/latest")
         //delegate -> jsonLoaded or jsonFailed
+        
+        
+        //custom constrains for iphone4. larger iphones and ipad constrains are configured in storyboard
+        if (UIScreen.mainScreen().bounds.size.height <= 480.0) {
+            self.view.layoutIfNeeded()
+            textTopConstrain.constant = 20
+            controlTopConstrain.constant = 20
+            self.view.layoutIfNeeded()
+        }
+
+    }
+    
+    override func updateViewConstraints() {
+        super.updateViewConstraints()
         
     }
     
@@ -196,16 +218,12 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate,
         let lastChar = processedText.substringFromIndex(processedText.endIndex.predecessor())
         let formatter = NSNumberFormatter()
         formatter.numberStyle = .CurrencyStyle
-        //formatter.minimumSignificantDigits = 0
         formatter.maximumSignificantDigits = 99
         formatter.maximumFractionDigits = 6
         formatter.currencyCode = "USD"
         
-        //prevent roundup for super small double
-        var processedNumber:Double = Double.init(processedText)!
-        processedNumber = floor(processedNumber*1000000)/1000000
         
-        //processedNumber = Double(processedNumber).floorToPlaces(10)
+        let processedNumber:Double = Double.init(processedText)!
         print("processed number: \(processedNumber)")
         
         
@@ -274,16 +292,15 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate,
     }
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         self.view.endEditing(true)
-        
-        
         return false
     }
     
+    //format input after editing, e.g. remove trailing zeros
     func textFieldDidEndEditing(textField: UITextField) {
         formatInputCurrency()
-        
     }
     
+    //reserver the "$" when textfield is empty
     func textFieldDidBeginEditing(textField: UITextField) {
         textField.text = "$"
     }
@@ -345,6 +362,9 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate,
         txtInputAmount.text = formatter.stringFromNumber(inputNumber)
         
     }
+    
+    
+    
     
     
     

@@ -54,7 +54,6 @@ class DataManager:NSObject, NSURLConnectionDelegate {
             
             guard let _ = json["rates"]?["AUD"]! else { throw JSONError.UnexpectedElement }
             guard let _ = json["rates"]?["CAD"]! else { throw JSONError.UnexpectedElement }
-            //guard let _ = json["rates"]?["EUR"] else { throw JSONError.UnexpectedElement }
             guard let _ = json["rates"]?["GBP"]! else { throw JSONError.UnexpectedElement }
             guard let _ = json["rates"]?["JPY"]! else { throw JSONError.UnexpectedElement }
             guard let _ = json["rates"]?["USD"]! else { throw JSONError.UnexpectedElement }

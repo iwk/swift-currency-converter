@@ -15,7 +15,7 @@ protocol OptionRollerDelegate {
 @IBDesignable 
 class OptionRollerControl: UIControl {
     
-    //config
+    //set colors of elements in interface builder
     @IBInspectable var textColor: UIColor = UIColor.blackColor() {
         didSet {
             setHightLight(selectedIndex)
@@ -61,7 +61,7 @@ class OptionRollerControl: UIControl {
         
         addUIDeco()
         
-        //swipe
+        //swipe guestures
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: "respondToSwipeGesture:")
         swipeLeft.direction = UISwipeGestureRecognizerDirection.Left
         self.addGestureRecognizer(swipeLeft)
@@ -69,6 +69,8 @@ class OptionRollerControl: UIControl {
         let swipeRight = UISwipeGestureRecognizer(target: self, action: "respondToSwipeGesture:")
         swipeRight.direction = UISwipeGestureRecognizerDirection.Right
         self.addGestureRecognizer(swipeRight)
+        
+        //finished init, wait for adding options in view controller
     }
     
     //init from code
@@ -94,18 +96,13 @@ class OptionRollerControl: UIControl {
         self.addSubview(topMargin)
         
         //bg
-        
         self.addSubview(background)
         
         //bottom
-        
         self.addSubview(bottomMargin)
         
         //indicators
-        //topIndicator = UIImageView(image: UIImage(named: "Indicator_1"))
-        //bottomIndicator = UIImageView(image: UIImage(named: "Indicator_2"))
         self.addSubview(topIndicator)
-        
         self.addSubview(bottomIndicator)
         
     }
@@ -183,15 +180,9 @@ class OptionRollerControl: UIControl {
         for (var i=0; i<optionList.count;i++){
             if (i == index)
             {
-                
                     optionList[i].textColor = UIColor.whiteColor()
-                
-                
-            } else {
-                
-                    optionList[i].textColor = textColor
-                
-                
+             } else {
+                optionList[i].textColor = textColor
             }
         }
     }
@@ -224,9 +215,6 @@ class OptionRollerControl: UIControl {
         background.frame = CGRectMake(0, 2+topIndicator.bounds.size.height/2, self.bounds.size.width, self.bounds.size.height-1-topIndicator.bounds.height/2 - bottomIndicator.bounds.height/2)
         bottomMargin.frame = CGRectMake(0, self.bounds.size.height-1-bottomIndicator.bounds.height/2, self.bounds.size.width, 1)
         
-        
-        
-        
     }
     
     override func layoutSubviews() {
@@ -234,6 +222,7 @@ class OptionRollerControl: UIControl {
         resetDeco()
     }
     
+    //try to shift position triggered by swipe guestures
     func shiftLeft()
     {
         if (selectedIndex < optionList.count - 1)
@@ -247,7 +236,6 @@ class OptionRollerControl: UIControl {
             }
         }
     }
-    
     func shiftRight()
     {
         if (selectedIndex > 0)

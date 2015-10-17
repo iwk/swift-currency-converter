@@ -36,7 +36,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="6344.63" textAlignment="center" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="4Fz-4b-cxj">
-                                <rect key="frame" x="32" y="188" width="536" height="64"/>
+                                <rect key="frame" x="48" y="188" width="504" height="64"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="64" id="Hdo-jA-uzh"/>
@@ -51,6 +51,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="ogp-2c-8m3">
                                         <variation key="heightClass=regular" constant="100"/>
+                                        <variation key="heightClass=regular-widthClass=regular" constant="200"/>
                                     </constraint>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
@@ -87,25 +88,39 @@
                         <color key="backgroundColor" red="0.2627450980392157" green="0.80392156862745101" blue="0.51372549019607838" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="ZNI-lf-1s9" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="2wC-0T-OkM"/>
-                            <constraint firstAttribute="trailing" secondItem="4Fz-4b-cxj" secondAttribute="trailing" constant="32" id="3Z5-hT-l0B"/>
+                            <constraint firstAttribute="trailing" secondItem="4Fz-4b-cxj" secondAttribute="trailing" constant="48" id="3Z5-hT-l0B"/>
                             <constraint firstItem="FqR-wU-Qfs" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="32" id="5C9-7O-Sgo"/>
                             <constraint firstItem="ROh-A4-o9E" firstAttribute="centerY" secondItem="ZNI-lf-1s9" secondAttribute="centerY" id="CCD-JW-103"/>
-                            <constraint firstItem="vRz-2h-Yg3" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="36" id="Jil-6h-vHa"/>
-                            <constraint firstItem="NS4-Rj-bEk" firstAttribute="top" secondItem="vRz-2h-Yg3" secondAttribute="bottom" constant="40" id="Khn-pp-osk"/>
+                            <constraint firstItem="vRz-2h-Yg3" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="36" id="Jil-6h-vHa">
+                                <variation key="heightClass=regular-widthClass=compact" constant="24"/>
+                            </constraint>
+                            <constraint firstItem="NS4-Rj-bEk" firstAttribute="top" secondItem="vRz-2h-Yg3" secondAttribute="bottom" constant="40" id="Khn-pp-osk">
+                                <variation key="heightClass=regular" constant="56"/>
+                                <variation key="heightClass=regular-widthClass=compact" constant="76"/>
+                            </constraint>
                             <constraint firstAttribute="trailing" secondItem="ZNI-lf-1s9" secondAttribute="trailing" id="OS3-Jm-ua3"/>
-                            <constraint firstItem="4Fz-4b-cxj" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="32" id="UaQ-nC-NgR"/>
+                            <constraint firstItem="4Fz-4b-cxj" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="48" id="UaQ-nC-NgR"/>
                             <constraint firstItem="ROh-A4-o9E" firstAttribute="centerX" secondItem="ZNI-lf-1s9" secondAttribute="centerX" id="VJt-qb-xwc"/>
                             <constraint firstItem="NS4-Rj-bEk" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="YBc-ck-D4I"/>
                             <constraint firstAttribute="trailing" secondItem="FqR-wU-Qfs" secondAttribute="trailing" constant="32" id="ZZu-W8-jVL"/>
-                            <constraint firstItem="FqR-wU-Qfs" firstAttribute="top" secondItem="ZNI-lf-1s9" secondAttribute="bottom" constant="24" id="do0-H5-bed"/>
+                            <constraint firstItem="FqR-wU-Qfs" firstAttribute="top" secondItem="ZNI-lf-1s9" secondAttribute="bottom" constant="24" id="do0-H5-bed">
+                                <variation key="heightClass=regular-widthClass=regular" constant="100"/>
+                            </constraint>
                             <constraint firstItem="vRz-2h-Yg3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="dp5-BF-idb"/>
-                            <constraint firstItem="ZNI-lf-1s9" firstAttribute="top" secondItem="4Fz-4b-cxj" secondAttribute="bottom" constant="56" id="kX0-sU-HCf"/>
-                            <constraint firstItem="4Fz-4b-cxj" firstAttribute="top" secondItem="NS4-Rj-bEk" secondAttribute="bottom" constant="16" id="yae-9q-DHd"/>
+                            <constraint firstItem="ZNI-lf-1s9" firstAttribute="top" secondItem="4Fz-4b-cxj" secondAttribute="bottom" constant="56" id="kX0-sU-HCf">
+                                <variation key="heightClass=regular-widthClass=compact" constant="70"/>
+                                <variation key="heightClass=regular-widthClass=regular" constant="100"/>
+                            </constraint>
+                            <constraint firstItem="4Fz-4b-cxj" firstAttribute="top" secondItem="NS4-Rj-bEk" secondAttribute="bottom" constant="16" id="yae-9q-DHd">
+                                <variation key="heightClass=regular-widthClass=regular" constant="56"/>
+                            </constraint>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="ROh-A4-o9E" id="kl0-6Q-RnJ"/>
+                        <outlet property="controlTopConstrain" destination="kX0-sU-HCf" id="Yd9-y8-UY3"/>
                         <outlet property="currencyControl" destination="ZNI-lf-1s9" id="iJh-VI-lA6"/>
+                        <outlet property="textTopConstrain" destination="Khn-pp-osk" id="D7E-9n-kec"/>
                         <outlet property="txtInputAmount" destination="4Fz-4b-cxj" id="rXR-E1-YAi"/>
                         <outlet property="txtOutputAmount" destination="FqR-wU-Qfs" id="rCT-dX-HbS"/>
                     </connections>
