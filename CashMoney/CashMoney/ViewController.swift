@@ -46,19 +46,20 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate,
         //delegate -> jsonLoaded or jsonFailed
         
         
-        //custom constrains for iphone4. larger iphones and ipad constrains are configured in storyboard
+        //custom constrains for iphone4. Other iphones and ipad constrains are configured in storyboard
+        updateConstrainsForSmallphones()
+
+    }
+    
+    
+    func updateConstrainsForSmallphones()
+    {
         if (UIScreen.mainScreen().bounds.size.height <= 480.0) {
             self.view.layoutIfNeeded()
             textTopConstrain.constant = 20
             controlTopConstrain.constant = 20
             self.view.layoutIfNeeded()
         }
-
-    }
-    
-    override func updateViewConstraints() {
-        super.updateViewConstraints()
-        
     }
     
     func jsonLoaded(json: NSDictionary) {
