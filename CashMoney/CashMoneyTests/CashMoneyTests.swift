@@ -19,7 +19,6 @@ class CashMoneyTests: XCTestCase {
         ExchangeCalculator.sharedInstance.addCurrencyWithValue("EUR", value: 1)
         ExchangeCalculator.sharedInstance.addCurrencyWithValue("USD", value: 1.1)
 
-        
     }
     
     
@@ -37,6 +36,33 @@ class CashMoneyTests: XCTestCase {
         XCTAssertTrue(ExchangeCalculator.sharedInstance.getCurrencyValue("NAN", toCurrencyCode: "AUD", amount: 150).isNaN)
     }
     
+    
+    //MARK:- Currency control
+    func testOptionControl()
+    {
+        let currencyOptionControl:OptionRollerControl = OptionRollerControl()
+        currencyOptionControl.addOption("CAD")
+        currencyOptionControl.addOption("GBP")
+        currencyOptionControl.addOption("USD")
+        currencyOptionControl.refreshView()
+        
+        XCTAssertEqual(currencyOptionControl.getSelectedOption()
+, "GBP")
+        //right out of Bound
+        currencyOptionControl.shiftLeft()
+        currencyOptionControl.shiftLeft()
+        XCTAssertEqual(currencyOptionControl.getSelectedOption()
+            , "USD")
+        
+        //left out of Bound
+        currencyOptionControl.shiftRight()
+        currencyOptionControl.shiftRight()
+        currencyOptionControl.shiftRight()
+        currencyOptionControl.shiftRight()
+        currencyOptionControl.shiftRight()
+        XCTAssertEqual(currencyOptionControl.getSelectedOption()
+            , "CAD")
+    }
    
     
     

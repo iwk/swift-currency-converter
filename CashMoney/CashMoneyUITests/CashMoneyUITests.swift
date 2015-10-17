@@ -48,7 +48,7 @@ class CashMoneyUITests: XCTestCase {
     }
     
     //Entering  "10000.0" -> "10000.00" -> "10000.001" while formating input in realtime
-    //Format as "$10,000.0" -> "$10,000.00"(intermediate) -> "$10,000.001"
+    //Should equal"$10,000.0"(fomat intermediate trailing 0) -> "$10,000.00"(format intermediate trailing 0) -> "$10,000.001"
     func testInputCase_IntermediateTrailingZeros()
     {
         
@@ -57,18 +57,20 @@ class CashMoneyUITests: XCTestCase {
         textField.tap()
         textField.typeText("10000.001")
         app.otherElements.containingType(.Image, identifier:"Logo.png").element.tap()
-        
+        XCTAssertEqual(textField.value as? String, "$10,000.001")
     }
     
-    //Entering "0"  "."  "."  "."  "."  "1"
+    //Repeated "." and intermediate trailing "."
+    //Entering "0"  "."  "."  "."  "."  "1"  "2" should equal 1.12
     func testInputCase_RepeatedAndTrailingDots()
     {
         let app = XCUIApplication()
         let textField = app.otherElements.containingType(.Image, identifier:"Logo.png").childrenMatchingType(.TextField).elementBoundByIndex(0)
         textField.tap()
-        textField.typeText("1.........1")
+        textField.typeText("1.........12")
         app.otherElements.containingType(.Image, identifier:"Logo.png").element.tap()
         app.staticTexts["EUR"].tap()
+        XCTAssertEqual(textField.value as? String, "$1.12")
     }
     
 }
