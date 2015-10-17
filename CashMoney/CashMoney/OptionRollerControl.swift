@@ -47,8 +47,17 @@ class OptionRollerControl: UIControl {
     //init from IB
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
+        
         addUIDeco()
-        initCurrencies()
+        
+        //swipe
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: "respondToSwipeGesture:")
+        swipeLeft.direction = UISwipeGestureRecognizerDirection.Left
+        self.addGestureRecognizer(swipeLeft)
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: "respondToSwipeGesture:")
+        swipeRight.direction = UISwipeGestureRecognizerDirection.Right
+        self.addGestureRecognizer(swipeRight)
     }
     
     //init from code
@@ -58,8 +67,14 @@ class OptionRollerControl: UIControl {
     
     override func prepareForInterfaceBuilder() {
         addUIDeco()
-        initCurrencies()
-        setHightLight(2)
+        
+        addOption("CAD")
+        addOption("EUR")
+        addOption("GBP")
+        addOption("JPY")
+        addOption("USD")
+        refreshView()
+        
     }
     
     func addUIDeco()
@@ -87,20 +102,12 @@ class OptionRollerControl: UIControl {
     
     
     
-    //This control uses storyboard live rendering. Currency init is put here instead of view controller so that it can be viewed in storyboard dynamically in real time without running the app
-    func initCurrencies()
+    
+    func refreshView()
     {
-        addOption("CAD")
-        addOption("EUR")
-        addOption("GBP")
-        addOption("JPY")
-        addOption("USD")
-        
         selectedIndex = Int(floor(Float(optionList.count/2)))
-        //setHightLight(selectedIndex)
+        setHightLight(selectedIndex)
         updateItemPosition(false)
-        
-        initInteractions()
     }
     
     
@@ -116,31 +123,15 @@ class OptionRollerControl: UIControl {
         label.tag = optionList.count
         self.addSubview(label)
         optionList.append(label)
+        
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: "optionTapped:")
+        label.userInteractionEnabled = true
+        label.addGestureRecognizer(tapRecognizer)
     }
     
     
     
     //MARK:- handling interactions
-    //init recognizers
-    func initInteractions()
-    {
-        //swipe
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: "respondToSwipeGesture:")
-        swipeLeft.direction = UISwipeGestureRecognizerDirection.Left
-        self.addGestureRecognizer(swipeLeft)
-        
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: "respondToSwipeGesture:")
-        swipeRight.direction = UISwipeGestureRecognizerDirection.Right
-        self.addGestureRecognizer(swipeRight)
-        
-        //tap
-        for (var i=0; i<optionList.count;i++){
-            let tapRecognizer = UITapGestureRecognizer(target: self, action: "optionTapped:")
-            optionList[i].userInteractionEnabled = true
-            optionList[i].addGestureRecognizer(tapRecognizer)
-        }
-   
-    }
     //tap handler
     func optionTapped(gesture: UITapGestureRecognizer)
     {

@@ -14,54 +14,98 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate 
     
     @IBOutlet weak var txtInputAmount: UITextField!
     
+    @IBOutlet weak var currencyControl: OptionRollerControl!
     var inputNumber:Double = 10.00008
     
     let INPUT_CHAR_LIMIT = 20
     let DECIMAL_LIMIT = 8
     
+    var currencyData:NSDictionary?
+    
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
         //status bar color
         self.setNeedsStatusBarAppearanceUpdate()
         
-        //dismiss keyboard
-        let tap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
-        view.addGestureRecognizer(tap)
-        txtInputAmount.delegate = self
-        
-        
-        //test
-        formatInputCurrency()
-        txtInputAmount.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
-        
+        //load and check data from DataManager and wait for callback -> jsonLoaded
         DataManager.sharedInstance.delegate = self
         DataManager.sharedInstance.loadJsonFromUrl("https://api.fixer.io/latest")
-        //delegate callback -> jsonLoaded or jsonFailed
+        //delegate -> jsonLoaded or jsonFailed
         
     }
     
     func jsonLoaded(json: NSDictionary) {
         print("json")
-        print(json)
+        currencyData = json
+        dispatch_async(dispatch_get_main_queue(), {
+            //need main queue to update ui and indicator
+            self.initControls()
+        })
     }
     func jsonFailed(message:String) {
-        //pop error
         print("error message received")
         print(message)
     }
     
     
     
+    func initControls()
+    {
+        //enable view
+        self.activityIndicator.stopAnimating()
+        
+        //setup caculator model
+        ExchangeCalculator.sharedInstance.addCurrencyWithValue("EUR", value: 1.0 )
+        for currencyCode in ["AUD","CAD","GBP", "JPY", "USD"]
+        {
+            //verify JSON format
+            do {
+                guard let _ = currencyData!["rates"]?[currencyCode]! else { throw DataManager.JSONError.UnexpectedElement }
+                ExchangeCalculator.sharedInstance.addCurrencyWithValue(currencyCode, value: (currencyData!["rates"]?[currencyCode]) as! Double )
+            } catch {
+                print(error)
+            }
+            
+        }
+        
+        
+        //setup view
+        for currencyCode in ["CAD", "EUR", "GBP", "JPY", "USD"]
+        {
+            currencyControl.addOption(currencyCode)
+        }
+        currencyControl.refreshView()
+        
+        //test
+        print(ExchangeCalculator.sharedInstance.getCurrencyValue("AUD", toCurrencyCode: "USD", amount: 100))
+        
+        
+        //interactions
+        let tap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        view.addGestureRecognizer(tap)
+        
+        txtInputAmount.delegate = self
+        txtInputAmount.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
+        
+        formatInputCurrency()
+    }
+    
+    
+    
+    
+    //process and format input while user is editing textfield
     /* sepcial cases:
-    non number characters
-    trailing decimial 0
-    trailing .
-    duplicated .
-    empty string
-    max length
-    double out of range
+    filtering non number characters
+    enable trailing decimial 0 during input
+    enable trailing .
+    filter duplicated .
+    format empty string
+    limit to max length
+    handle super small double out of range
     */
     func textFieldDidChange(textField:UITextField){
         
@@ -71,7 +115,7 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate 
         var outputText:String = ""
         var trailingDecimalZero = 0
         var decimalPlace = 0
-
+        
         print("inputText: "+inputText)
         
         //filter duplicated .
@@ -107,7 +151,7 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate 
                         trailingDecimalZero = 0
                     }
                 }
-
+                
             }
         }
         
@@ -128,12 +172,12 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate 
         formatter.numberStyle = .CurrencyStyle
         //formatter.minimumSignificantDigits = 0
         formatter.maximumSignificantDigits = 99
-        formatter.maximumFractionDigits = 8
+        formatter.maximumFractionDigits = 6
         formatter.locale = NSLocale(localeIdentifier: "en_US")
         
-        
+        //prevent roundup for super small double
         var processedNumber:Double = Double.init(processedText)!
-        processedNumber = floor(processedNumber*100000000)/100000000
+        processedNumber = floor(processedNumber*1000000)/1000000
         
         //processedNumber = Double(processedNumber).floorToPlaces(10)
         print("processed number: \(processedNumber)")
@@ -147,39 +191,39 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate 
             processedText = formatter.stringFromNumber(processedNumber)!
             processedText = processedText + "."
         } else
-        if (lastChar == "0" && isDecimal)
-        {
-            //format tailing decimial 0
-            
-            processedText = formatter.stringFromNumber(processedNumber)!
-            print("processedText: "+processedText)
-            
-            //prevent formatter from removing .0 while user is still entering 0
-            if (processedNumber % 1 == 0)
+            if (lastChar == "0" && isDecimal)
             {
-                processedText = processedText+"."
-            }
-            
-            //append trailing zeros
-            for var i = 0; i < trailingDecimalZero; i++ {
-                processedText = processedText+"0"
-                print("add 0")
-            }
-            
-            
-        }else
-        {
-            //format normal case
-            processedText = " "+formatter.stringFromNumber(processedNumber)!
-            
-            
+                //format tailing decimial 0
+                
+                processedText = formatter.stringFromNumber(processedNumber)!
+                print("processedText: "+processedText)
+                
+                //prevent formatter from removing .0 while user is still entering 0
+                if (processedNumber % 1 == 0)
+                {
+                    processedText = processedText+"."
+                }
+                
+                //append trailing zeros
+                for var i = 0; i < trailingDecimalZero; i++ {
+                    processedText = processedText+"0"
+                    print("add 0")
+                }
+                
+                
+            }else
+            {
+                //format normal case
+                processedText = " "+formatter.stringFromNumber(processedNumber)!
+                
+                
         }
         
         //show text
         outputText = processedText
         print("outputText: "+outputText)
         textField.text = outputText
-        
+        inputNumber = processedNumber
     }
     
     
@@ -208,23 +252,19 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate 
         return false
     }
     
-    
-    
-    //format inputCurrency
-    func textFieldDidBeginEditing(textField: UITextField) {
-        
-        
+    func textFieldDidEndEditing(textField: UITextField) {
+        formatInputCurrency()
     }
     
     
-    
+    //prevent change when max character is reached
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-    //test new string by NSString function
-    let newCharacter:NSString = NSString(string: string)
-    let originalString:NSString = NSString(string: txtInputAmount.text!)
-    let newString = originalString.stringByReplacingCharactersInRange(range, withString: newCharacter as String)
-    
-    
+        //test new string by NSString function
+        let newCharacter:NSString = NSString(string: string)
+        let originalString:NSString = NSString(string: txtInputAmount.text!)
+        let newString = originalString.stringByReplacingCharactersInRange(range, withString: newCharacter as String)
+        
+        
         if (newString.characters.count > INPUT_CHAR_LIMIT)
         {
             return false
@@ -237,7 +277,7 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate 
     
     
     
-    
+    /*
     func checkStringFormat(testString:String) -> Bool{
         
         let formatter = NSNumberFormatter()
@@ -260,7 +300,7 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate 
         }
         
         
-    }
+    }*/
     
     
     
@@ -270,6 +310,8 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate 
         formatter.numberStyle = .CurrencyStyle
         
         formatter.locale = NSLocale(localeIdentifier: "en_US")
+        formatter.maximumSignificantDigits = 99
+        formatter.maximumFractionDigits = 6
         //print(inputNumber)
         txtInputAmount.text = formatter.stringFromNumber(inputNumber)
         
@@ -281,9 +323,9 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate 
 
 /*
 extension Double {
-    /// Rounds the double to decimal places value
-    func floorToPlaces(places:Int) -> Double {
-        let divisor = pow(10.0, Double(places))
-        return floor(self * divisor) / divisor
-    }
+/// Rounds the double to decimal places value
+func floorToPlaces(places:Int) -> Double {
+let divisor = pow(10.0, Double(places))
+return floor(self * divisor) / divisor
+}
 }*/

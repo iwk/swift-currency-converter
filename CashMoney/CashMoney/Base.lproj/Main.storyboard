@@ -68,6 +68,10 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="ROh-A4-o9E">
+                                <rect key="frame" x="290" y="308" width="20" height="20"/>
+                                <animations/>
+                            </activityIndicatorView>
                             <textField autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="6344.63" textAlignment="center" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="FqR-wU-Qfs">
                                 <rect key="frame" x="32" y="392" width="536" height="64"/>
                                 <animations/>
@@ -85,10 +89,12 @@
                             <constraint firstItem="ZNI-lf-1s9" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="2wC-0T-OkM"/>
                             <constraint firstAttribute="trailing" secondItem="4Fz-4b-cxj" secondAttribute="trailing" constant="32" id="3Z5-hT-l0B"/>
                             <constraint firstItem="FqR-wU-Qfs" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="32" id="5C9-7O-Sgo"/>
+                            <constraint firstItem="ROh-A4-o9E" firstAttribute="centerY" secondItem="ZNI-lf-1s9" secondAttribute="centerY" id="CCD-JW-103"/>
                             <constraint firstItem="vRz-2h-Yg3" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="36" id="Jil-6h-vHa"/>
                             <constraint firstItem="NS4-Rj-bEk" firstAttribute="top" secondItem="vRz-2h-Yg3" secondAttribute="bottom" constant="40" id="Khn-pp-osk"/>
                             <constraint firstAttribute="trailing" secondItem="ZNI-lf-1s9" secondAttribute="trailing" id="OS3-Jm-ua3"/>
                             <constraint firstItem="4Fz-4b-cxj" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="32" id="UaQ-nC-NgR"/>
+                            <constraint firstItem="ROh-A4-o9E" firstAttribute="centerX" secondItem="ZNI-lf-1s9" secondAttribute="centerX" id="VJt-qb-xwc"/>
                             <constraint firstItem="NS4-Rj-bEk" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="YBc-ck-D4I"/>
                             <constraint firstAttribute="trailing" secondItem="FqR-wU-Qfs" secondAttribute="trailing" constant="32" id="ZZu-W8-jVL"/>
                             <constraint firstItem="FqR-wU-Qfs" firstAttribute="top" secondItem="ZNI-lf-1s9" secondAttribute="bottom" constant="24" id="do0-H5-bed"/>
@@ -98,6 +104,8 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="ROh-A4-o9E" id="kl0-6Q-RnJ"/>
+                        <outlet property="currencyControl" destination="ZNI-lf-1s9" id="iJh-VI-lA6"/>
                         <outlet property="txtInputAmount" destination="4Fz-4b-cxj" id="rXR-E1-YAi"/>
                         <outlet property="txtOutputAmount" destination="FqR-wU-Qfs" id="rCT-dX-HbS"/>
                     </connections>
