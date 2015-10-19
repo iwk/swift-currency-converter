@@ -221,7 +221,8 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate,
         formatter.numberStyle = .CurrencyStyle
         formatter.maximumSignificantDigits = 99
         formatter.maximumFractionDigits = 6
-        formatter.currencyCode = "USD"
+        //formatter.currencyCode = "USD"
+        formatter.currencySymbol = "$"
         
         
         let processedNumber:Double = Double.init(processedText)!
@@ -356,7 +357,8 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate,
         
         let formatter = NSNumberFormatter()
         formatter.numberStyle = .CurrencyStyle
-        formatter.currencyCode = "USD"
+        //formatter.currencyCode = "USD"
+        formatter.currencySymbol = "$"
         //formatter.maximumSignificantDigits = 99
         formatter.maximumFractionDigits = 6
         //print(inputNumber)
