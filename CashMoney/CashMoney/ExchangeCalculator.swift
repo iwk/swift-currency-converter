@@ -16,23 +16,23 @@ class ExchangeCalculator:NSObject {
     
     func addCurrencyWithValue(currencyCode:String, value:Double)
     {
-        exchangeTable.setObject(value, forKey: currencyCode)
+        exchangeTable.setObject(value, forKey: currencyCode as NSCopying)
     }
     
     //convert from one currency to another
     func getCurrencyValue(fromCurrencyCode:String, toCurrencyCode:String, amount:Double) -> Double
     {
-        if (exchangeTable.objectForKey(fromCurrencyCode) != nil) && (exchangeTable.objectForKey(toCurrencyCode) != nil)
+        if (exchangeTable.object(forKey: fromCurrencyCode) != nil) && (exchangeTable.object(forKey: toCurrencyCode) != nil)
         {
             
-            let fromValue:Double = exchangeTable.objectForKey(fromCurrencyCode) as! Double
-            let toValue:Double = exchangeTable.objectForKey(toCurrencyCode) as! Double
+            let fromValue:Double = exchangeTable.object(forKey: fromCurrencyCode) as! Double
+            let toValue:Double = exchangeTable.object(forKey: toCurrencyCode) as! Double
             
             return amount/fromValue*toValue
         }
         else
         {
-            return Double.NaN
+            return Double.nan
         }
         
     }

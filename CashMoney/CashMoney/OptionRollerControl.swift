@@ -16,22 +16,22 @@ protocol OptionRollerDelegate {
 class OptionRollerControl: UIControl {
     
     //set colors of elements in interface builder
-    @IBInspectable var textColor: UIColor = UIColor.blackColor() {
+    @IBInspectable var textColor: UIColor = UIColor.black {
         didSet {
-            setHightLight(selectedIndex)
+            setHightLight(index: selectedIndex)
         }
     }
-    @IBInspectable var topMarginColor: UIColor = UIColor.clearColor() {
+    @IBInspectable var topMarginColor: UIColor = UIColor.clear {
         didSet {
             self.topMargin.backgroundColor = topMarginColor
         }
     }
-    @IBInspectable var bgColor: UIColor = UIColor.clearColor() {
+    @IBInspectable var bgColor: UIColor = UIColor.clear {
         didSet {
             background.backgroundColor = bgColor
         }
     }
-    @IBInspectable var bottomMarginColor: UIColor = UIColor.clearColor() {
+    @IBInspectable var bottomMarginColor: UIColor = UIColor.clear {
         didSet {
             bottomMargin.backgroundColor = bottomMarginColor
         }
@@ -63,11 +63,11 @@ class OptionRollerControl: UIControl {
         
         //swipe guestures
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: "respondToSwipeGesture:")
-        swipeLeft.direction = UISwipeGestureRecognizerDirection.Left
+        swipeLeft.direction = UISwipeGestureRecognizer.Direction.left
         self.addGestureRecognizer(swipeLeft)
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: "respondToSwipeGesture:")
-        swipeRight.direction = UISwipeGestureRecognizerDirection.Right
+        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
         self.addGestureRecognizer(swipeRight)
         
         //finished init, wait for adding options in view controller
@@ -81,11 +81,11 @@ class OptionRollerControl: UIControl {
     override func prepareForInterfaceBuilder() {
         addUIDeco()
         
-        addOption("CAD")
-        addOption("EUR")
-        addOption("GBP")
-        addOption("JPY")
-        addOption("USD")
+        addOption(optionName: "CAD")
+        addOption(optionName: "EUR")
+        addOption(optionName: "GBP")
+        addOption(optionName: "JPY")
+        addOption(optionName: "USD")
         refreshView()
         
     }
@@ -114,16 +114,16 @@ class OptionRollerControl: UIControl {
     func refreshView()
     {
         selectedIndex = Int(floor(Float(optionList.count/2)))
-        setHightLight(selectedIndex)
-        updateItemPosition(false)
+        setHightLight(index: selectedIndex)
+        updateItemPosition(animated: false)
     }
     
     
     //add currency
     func addOption(optionName:String)
     {
-        let label = UILabel(frame: CGRectMake(0, 0, 140, 56))
-        label.textAlignment = NSTextAlignment.Center
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 140, height: 56))
+        label.textAlignment = NSTextAlignment.center
         label.text = optionName
         label.font = UIFont(name: "Helvetica Bold", size: 56)
         label.textColor = textColor
@@ -133,7 +133,7 @@ class OptionRollerControl: UIControl {
         optionList.append(label)
         
         let tapRecognizer = UITapGestureRecognizer(target: self, action: "optionTapped:")
-        label.userInteractionEnabled = true
+        label.isUserInteractionEnabled = true
         label.addGestureRecognizer(tapRecognizer)
     }
     
@@ -145,11 +145,11 @@ class OptionRollerControl: UIControl {
     {
         print("tapped")
         selectedIndex = gesture.view!.tag
-        updateItemPosition(true)
-        setHightLight(selectedIndex)
+        updateItemPosition(animated: true)
+        setHightLight(index: selectedIndex)
         if (delegate != nil)
         {
-            delegate?.optionDidChange(getSelectedOption())
+            delegate?.optionDidChange(option: getSelectedOption())
         }
     }
     //swipe handler
@@ -158,10 +158,10 @@ class OptionRollerControl: UIControl {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             
             switch swipeGesture.direction {
-            case UISwipeGestureRecognizerDirection.Left:
+            case UISwipeGestureRecognizer.Direction.left:
                 shiftLeft()
                 
-            case UISwipeGestureRecognizerDirection.Right:
+            case UISwipeGestureRecognizer.Direction.right:
                 shiftRight()
                 
             default:
@@ -177,11 +177,15 @@ class OptionRollerControl: UIControl {
     //MARK:- handling state changes
     func setHightLight(index:Int)
     {
-        for (var i=0; i<optionList.count;i++){
+     
+        if optionList.count == 0 {return}
+        for i in 0...optionList.count-1 {
+        
             if (i == index)
             {
-                    optionList[i].textColor = UIColor.whiteColor()
-             } else {
+                    optionList[i].textColor = UIColor.white
+                
+            } else {
                 optionList[i].textColor = textColor
             }
         }
@@ -189,16 +193,16 @@ class OptionRollerControl: UIControl {
     
     func updateItemPosition(animated:Bool)
     {
-        for (var i=0; i<optionList.count;i++)
-        {
+        if optionList.count == 0 {return}
+        for i in 0...optionList.count-1 {
             if (animated)
             {
-                UIView.animateWithDuration(0.2, animations: {
-                    self.optionList[i].center = CGPointMake(self.bounds.size.width/2 + CGFloat(i-self.selectedIndex) * self.optionMarginX, self.bounds.size.height/2)
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.optionList[i].center = CGPoint(x: self.bounds.size.width/2 + CGFloat(i-self.selectedIndex) * self.optionMarginX, y: self.bounds.size.height/2)
                 })
             } else
             {
-                optionList[i].center = CGPointMake(self.bounds.size.width/2 + CGFloat(i-selectedIndex) * optionMarginX, self.bounds.size.height/2)
+                optionList[i].center = CGPoint(x: self.bounds.size.width/2 + CGFloat(i-selectedIndex) * optionMarginX, y: self.bounds.size.height/2)
             }
         }
         
@@ -211,14 +215,14 @@ class OptionRollerControl: UIControl {
         bottomIndicator.frame.origin.y = self.bounds.size.height - bottomIndicator.bounds.size.height
         bottomIndicator.center.x = self.center.x
         
-        topMargin.frame = CGRectMake(0, topIndicator.bounds.size.height/2, self.bounds.size.width, 2)
-        background.frame = CGRectMake(0, 2+topIndicator.bounds.size.height/2, self.bounds.size.width, self.bounds.size.height-1-topIndicator.bounds.height/2 - bottomIndicator.bounds.height/2)
-        bottomMargin.frame = CGRectMake(0, self.bounds.size.height-1-bottomIndicator.bounds.height/2, self.bounds.size.width, 1)
+        topMargin.frame = CGRect(x: 0, y: topIndicator.bounds.size.height/2, width: self.bounds.size.width, height: 2)
+        background.frame = CGRect(x: 0, y: 2+topIndicator.bounds.size.height/2, width: self.bounds.size.width, height: self.bounds.size.height-1-topIndicator.bounds.height/2 - bottomIndicator.bounds.height/2)
+        bottomMargin.frame = CGRect(x: 0, y: self.bounds.size.height-1-bottomIndicator.bounds.height/2, width: self.bounds.size.width, height: 1)
         
     }
     
     override func layoutSubviews() {
-        updateItemPosition(false)
+        updateItemPosition(animated: false)
         resetDeco()
     }
     
@@ -228,11 +232,11 @@ class OptionRollerControl: UIControl {
         if (selectedIndex < optionList.count - 1)
         {
             selectedIndex += 1
-            setHightLight(selectedIndex)
-            updateItemPosition(true)
+            setHightLight(index: selectedIndex)
+            updateItemPosition(animated: true)
             if (delegate != nil)
             {
-                delegate?.optionDidChange(getSelectedOption())
+                delegate?.optionDidChange(option: getSelectedOption())
             }
         }
     }
@@ -241,11 +245,11 @@ class OptionRollerControl: UIControl {
         if (selectedIndex > 0)
         {
             selectedIndex -= 1
-            setHightLight(selectedIndex)
-            updateItemPosition(true)
+            setHightLight(index: selectedIndex)
+            updateItemPosition(animated: true)
             if (delegate != nil)
             {
-                delegate?.optionDidChange(getSelectedOption())
+                delegate?.optionDidChange(option: getSelectedOption())
             }
         }
     }

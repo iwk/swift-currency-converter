@@ -42,7 +42,7 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate,
         
         //load and check data from DataManager and wait for callback -> jsonLoaded
         DataManager.sharedInstance.delegate = self
-        DataManager.sharedInstance.loadJsonFromUrl("https://api.fixer.io/latest")
+        DataManager.sharedInstance.loadJsonFromUrl(urlPath: "https://api.fixer.io/latest")
         //delegate -> jsonLoaded or jsonFailed
         
         
@@ -54,7 +54,7 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate,
     
     func updateConstrainsForSmallphones()
     {
-        if (UIScreen.mainScreen().bounds.size.height <= 480.0) {
+        if (UIScreen.main.bounds.size.height <= 480.0) {
             self.view.layoutIfNeeded()
             textTopConstrain.constant = 20
             controlTopConstrain.constant = 20
@@ -65,10 +65,10 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate,
     func jsonLoaded(json: NSDictionary) {
         print("json")
         currencyData = json
-        dispatch_async(dispatch_get_main_queue(), {
-            //main queue update ui and states
+        DispatchQueue.main.async {
             self.initControls()
-        })
+        }
+       
     }
     func jsonFailed(message:String) {
         print("error message received")
@@ -83,13 +83,14 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate,
         self.activityIndicator.stopAnimating()
         
         //setup caculator model
-        ExchangeCalculator.sharedInstance.addCurrencyWithValue("EUR", value: 1.0 )
+        ExchangeCalculator.sharedInstance.addCurrencyWithValue(currencyCode: "EUR", value: 1.0 )
         for currencyCode in ["AUD","CAD","GBP", "JPY", "USD"]
         {
             //verify JSON format
             do {
-                guard let _ = currencyData!["rates"]?[currencyCode]! else { throw DataManager.JSONError.UnexpectedElement }
-                ExchangeCalculator.sharedInstance.addCurrencyWithValue(currencyCode, value: (currencyData!["rates"]?[currencyCode]) as! Double )
+                //guard let _ = ((currencyData!["rates"]) as! Dictionary )[currencyCode]! else { throw DataManager.JSONError.UnexpectedElement }
+                
+                ExchangeCalculator.sharedInstance.addCurrencyWithValue(currencyCode: currencyCode, value: ((currencyData!["rates"] as! [String:Any])[currencyCode]) as! Double )
             } catch {
                 print(error)
             }
@@ -101,7 +102,7 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate,
         currencyControl.delegate = self
         for currencyCode in ["CAD", "EUR", "GBP", "JPY", "USD"]
         {
-            currencyControl.addOption(currencyCode)
+            currencyControl.addOption(optionName: currencyCode)
         }
         currencyControl.refreshView()
         
@@ -111,7 +112,7 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate,
         view.addGestureRecognizer(tap)
         
         txtInputAmount.delegate = self
-        txtInputAmount.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
+        txtInputAmount.addTarget(self, action: "textFieldDidChange:", for: UIControl.Event.editingChanged)
         
         formatInputCurrency()
         convert()
@@ -121,11 +122,11 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate,
     
     func drawDashedUnderline()
     {
-        let color = UIColor(red: 66/255, green: 66/255, blue: 66/255, alpha: 1).CGColor
+        let color = UIColor(red: 66/255, green: 66/255, blue: 66/255, alpha: 1).cgColor
         
         let shapeLayer:CAShapeLayer = CAShapeLayer()
         let frameSize = txtInputAmount.frame.size
-        let lineWidth = (frameSize.width - (frameSize.width % 18))
+        let lineWidth = (frameSize.width - (frameSize.width.truncatingRemainder(dividingBy: 18)))
         let shapeRect = CGRect(x: 0, y: 0, width: lineWidth, height: 1)
         
         shapeLayer.bounds = shapeRect
@@ -133,14 +134,14 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate,
         shapeLayer.fillColor = color
         shapeLayer.strokeColor = color
         shapeLayer.lineWidth = 3
-        shapeLayer.lineJoin = kCALineJoinRound
+        shapeLayer.lineJoin = CAShapeLayerLineJoin.round
         shapeLayer.lineDashPattern = [10,8]
         //for rect
         //shapeLayer.path = UIBezierPath(roundedRect: shapeRect, cornerRadius: 5).CGPath
         let path = UIBezierPath()
-        path.moveToPoint(CGPointMake(0, 0))
-        path.addLineToPoint(CGPointMake(lineWidth, 0))
-        shapeLayer.path = path.CGPath
+        path.move(to: CGPoint(x: 0, y: 0))
+        path.addLine(to: CGPoint(x: lineWidth, y: 0))
+        shapeLayer.path = path.cgPath
         txtInputAmount.layer.addSublayer(shapeLayer)
     }
     
@@ -170,7 +171,7 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate,
         
         //filter duplicated .
         var isDecimal = false
-        for c in inputText.characters
+        for c in inputText
         {
             if ( c == ".") {
                 if (isDecimal) {
@@ -183,7 +184,7 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate,
             } else {
                 //count decimal place
                 if (isDecimal) {
-                    decimalPlace++
+                    decimalPlace = decimalPlace + 1
                 }
                 //count trailing zeros
                 if (decimalPlace <= DECIMAL_LIMIT)
@@ -194,7 +195,7 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate,
                     //count decimal 0
                     if (c == "0" && isDecimal)
                     {
-                        trailingDecimalZero++
+                        trailingDecimalZero = trailingDecimalZero + 1
                     } else
                     {
                         trailingDecimalZero = 0
@@ -205,9 +206,11 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate,
         }
         
         //filter invalid characters
-        let validSet:NSCharacterSet = NSCharacterSet(charactersInString: "0123456789.")
-        processedText = processedText.stringByTrimmingCharactersInSet(validSet.invertedSet)
-        processedText = processedText.stringByReplacingOccurrencesOfString(",", withString: "")
+        let validSet:NSCharacterSet = NSCharacterSet(charactersIn: "0123456789.")
+        processedText = processedText.trimmingCharacters(in: validSet.inverted)
+        //processedText = processedText.stringByTrimmingCharactersInSet(validSet.invertedSet)
+        processedText = processedText.replacingOccurrences(of: ",", with: "")
+        //processedText = processedText.stringByReplacingOccurrencesOfString(",", withString: "")
         
         //handle empty string
         if (processedText == "")
@@ -216,9 +219,9 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate,
         }
         
         //format display
-        let lastChar = processedText.substringFromIndex(processedText.endIndex.predecessor())
-        let formatter = NSNumberFormatter()
-        formatter.numberStyle = .CurrencyStyle
+        let lastChar = processedText.last//.substringFrom(processedText.endIndex.predecessor())
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
         formatter.maximumSignificantDigits = 99
         formatter.maximumFractionDigits = 6
         //formatter.currencyCode = "USD"
@@ -234,24 +237,25 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate,
         if (lastChar == ".")
         {
             //format tailing .
-            processedText = formatter.stringFromNumber(processedNumber)!
+            processedText = formatter.string(from: NSNumber(value: processedNumber))!
             processedText = processedText + "."
         } else
             if (lastChar == "0" && isDecimal)
             {
                 //format tailing decimial 0
                 
-                processedText = formatter.stringFromNumber(processedNumber)!
+                processedText = formatter.string(from: NSNumber(value: processedNumber))!
                 print("processedText: "+processedText)
                 
                 //prevent formatter from removing .0 while user is still entering 0
-                if (processedNumber % 1 == 0)
+                if (processedNumber.truncatingRemainder(dividingBy: 1.0) == 0)
                 {
                     processedText = processedText+"."
                 }
                 
                 //append trailing zeros
-                for var i = 0; i < trailingDecimalZero; i++ {
+                for i in 0...trailingDecimalZero-1{
+                
                     processedText = processedText+"0"
                     print("add 0")
                 }
@@ -260,7 +264,7 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate,
             }else
             {
                 //format normal case
-                processedText = " "+formatter.stringFromNumber(processedNumber)!
+                processedText = " "+formatter.string(from: NSNumber(value: processedNumber))!
                 
                 
         }
@@ -281,10 +285,14 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate,
     }
     
     //status bar color
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
-    }
+//    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+//        return UIStatusBarStyle.lightContent
+//    }
     
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     
     
     //dismiss keyboard
@@ -313,10 +321,10 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate,
         //test new string by NSString function
         let newCharacter:NSString = NSString(string: string)
         let originalString:NSString = NSString(string: txtInputAmount.text!)
-        let newString = originalString.stringByReplacingCharactersInRange(range, withString: newCharacter as String)
+        let newString = originalString.replacingCharacters(in: range, with: newCharacter as String)
         
         
-        if (newString.characters.count > INPUT_CHAR_LIMIT)
+        if (newString.count > INPUT_CHAR_LIMIT)
         {
             return false
         } else
@@ -337,32 +345,32 @@ class ViewController: UIViewController, UITextFieldDelegate, JsonLoaderDelegate,
     
     func convert()
     {
-        outputNumber = ExchangeCalculator.sharedInstance.getCurrencyValue("AUD", toCurrencyCode: currencyControl.getSelectedOption(), amount: inputNumber)
+        outputNumber = ExchangeCalculator.sharedInstance.getCurrencyValue(fromCurrencyCode: "AUD", toCurrencyCode: currencyControl.getSelectedOption(), amount: inputNumber)
         formatOuputCurrency()
     }
     
     
     func formatOuputCurrency(){
         
-        let formatter = NSNumberFormatter()
-        formatter.numberStyle = .CurrencyStyle
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
         formatter.currencyCode = currencyControl.getSelectedOption()
         formatter.maximumFractionDigits = 2
-        txtOutputAmount.text = formatter.stringFromNumber(outputNumber)
+        txtOutputAmount.text = formatter.string(from: NSNumber(value: outputNumber))
     }
     
     
     
     func formatInputCurrency(){
         
-        let formatter = NSNumberFormatter()
-        formatter.numberStyle = .CurrencyStyle
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
         //formatter.currencyCode = "USD"
         formatter.currencySymbol = "$"
         //formatter.maximumSignificantDigits = 99
         formatter.maximumFractionDigits = 6
         //print(inputNumber)
-        txtInputAmount.text = formatter.stringFromNumber(inputNumber)
+        txtInputAmount.text = formatter.string(from: NSNumber(value: inputNumber))
         
     }
     

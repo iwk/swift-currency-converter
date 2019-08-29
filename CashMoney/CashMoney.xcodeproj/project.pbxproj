@@ -14,15 +14,15 @@
 		AE1547D21BCDE175008EDCAF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE1547D01BCDE175008EDCAF /* LaunchScreen.storyboard */; };
 		AE1547DD1BCDE175008EDCAF /* CashMoneyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1547DC1BCDE175008EDCAF /* CashMoneyTests.swift */; };
 		AE1547E81BCDE175008EDCAF /* CashMoneyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1547E71BCDE175008EDCAF /* CashMoneyUITests.swift */; };
-		AE1547FD1BCDE1D9008EDCAF /* Indicator_1.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1547F71BCDE1D9008EDCAF /* Indicator_1.png */; settings = {ASSET_TAGS = (); }; };
-		AE1547FE1BCDE1D9008EDCAF /* Indicator_1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1547F81BCDE1D9008EDCAF /* Indicator_1@2x.png */; settings = {ASSET_TAGS = (); }; };
-		AE1547FF1BCDE1D9008EDCAF /* Indicator_2.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1547F91BCDE1D9008EDCAF /* Indicator_2.png */; settings = {ASSET_TAGS = (); }; };
-		AE1548001BCDE1D9008EDCAF /* Indicator_2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1547FA1BCDE1D9008EDCAF /* Indicator_2@2x.png */; settings = {ASSET_TAGS = (); }; };
-		AE1548011BCDE1D9008EDCAF /* Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1547FB1BCDE1D9008EDCAF /* Logo.png */; settings = {ASSET_TAGS = (); }; };
-		AE1548021BCDE1D9008EDCAF /* Logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1547FC1BCDE1D9008EDCAF /* Logo@2x.png */; settings = {ASSET_TAGS = (); }; };
-		AEAEAE9D1BD147CB002197E3 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAEAE9C1BD147CB002197E3 /* DataManager.swift */; settings = {ASSET_TAGS = (); }; };
-		AEAEAE9F1BD1A699002197E3 /* ExchangeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAEAE9E1BD1A699002197E3 /* ExchangeCalculator.swift */; settings = {ASSET_TAGS = (); }; };
-		AEF73BBA1BCFC33900DB6383 /* OptionRollerControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF73BB91BCFC33900DB6383 /* OptionRollerControl.swift */; settings = {ASSET_TAGS = (); }; };
+		AE1547FD1BCDE1D9008EDCAF /* Indicator_1.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1547F71BCDE1D9008EDCAF /* Indicator_1.png */; };
+		AE1547FE1BCDE1D9008EDCAF /* Indicator_1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1547F81BCDE1D9008EDCAF /* Indicator_1@2x.png */; };
+		AE1547FF1BCDE1D9008EDCAF /* Indicator_2.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1547F91BCDE1D9008EDCAF /* Indicator_2.png */; };
+		AE1548001BCDE1D9008EDCAF /* Indicator_2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1547FA1BCDE1D9008EDCAF /* Indicator_2@2x.png */; };
+		AE1548011BCDE1D9008EDCAF /* Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1547FB1BCDE1D9008EDCAF /* Logo.png */; };
+		AE1548021BCDE1D9008EDCAF /* Logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1547FC1BCDE1D9008EDCAF /* Logo@2x.png */; };
+		AEAEAE9D1BD147CB002197E3 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAEAE9C1BD147CB002197E3 /* DataManager.swift */; };
+		AEAEAE9F1BD1A699002197E3 /* ExchangeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAEAE9E1BD1A699002197E3 /* ExchangeCalculator.swift */; };
+		AEF73BBA1BCFC33900DB6383 /* OptionRollerControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF73BB91BCFC33900DB6383 /* OptionRollerControl.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -236,6 +236,7 @@
 				TargetAttributes = {
 					AE1547C31BCDE175008EDCAF = {
 						CreatedOnToolsVersion = 7.0.1;
+						DevelopmentTeam = D4U3R3DH74;
 					};
 					AE1547D71BCDE175008EDCAF = {
 						CreatedOnToolsVersion = 7.0.1;
@@ -252,6 +253,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -451,10 +453,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = D4U3R3DH74;
 				INFOPLIST_FILE = CashMoney/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.philip.CashMoney;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -462,10 +466,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = D4U3R3DH74;
 				INFOPLIST_FILE = CashMoney/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.philip.CashMoney;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

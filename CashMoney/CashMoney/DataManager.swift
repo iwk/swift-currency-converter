@@ -20,7 +20,7 @@ class DataManager:NSObject, NSURLConnectionDelegate {
     var delegate: JsonLoaderDelegate?
     
     //custom error message
-    enum JSONError: String, ErrorType {
+    enum JSONError: String, Error {
         case NoData = "ERROR: no data"
         case ConversionFailed = "ERROR: invalid JSON format"
         case UnexpectedElement = "ERROR: unexpected JSON element"
@@ -30,15 +30,15 @@ class DataManager:NSObject, NSURLConnectionDelegate {
     func loadJsonFromUrl(urlPath:String)
     {
         guard let endpoint = NSURL(string: urlPath) else { print("Error creating endpoint");return }
-        let request = NSMutableURLRequest(URL:endpoint)
-        NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) -> Void in
+        let request = NSMutableURLRequest(url:endpoint as URL)
+        URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) -> Void in
             do {
                 guard let dat = data else { throw JSONError.NoData }
-                guard let json = try NSJSONSerialization.JSONObjectWithData(dat, options: []) as? NSDictionary else { throw JSONError.ConversionFailed }
-                self.parseJson(json)
+                guard let json = try JSONSerialization.jsonObject(with: dat, options: []) as? NSDictionary else { throw JSONError.ConversionFailed }
+                self.parseJson(json: json)
             } catch let error as JSONError {
                 //print(error.rawValue)
-                self.handleRequestFailed(error.rawValue)
+                self.handleRequestFailed(message: error.rawValue)
             } catch {
                 print(error)
             }
@@ -52,16 +52,18 @@ class DataManager:NSObject, NSURLConnectionDelegate {
         
         do {
             
-            guard let _ = json["rates"]?["AUD"]! else { throw JSONError.UnexpectedElement }
-            guard let _ = json["rates"]?["CAD"]! else { throw JSONError.UnexpectedElement }
-            guard let _ = json["rates"]?["GBP"]! else { throw JSONError.UnexpectedElement }
-            guard let _ = json["rates"]?["JPY"]! else { throw JSONError.UnexpectedElement }
-            guard let _ = json["rates"]?["USD"]! else { throw JSONError.UnexpectedElement }
+            //let rates:[String:Any]
             
-            handleRequestSuccess(json)
+//            guard let _ = rates["AUD"]! else { throw JSONError.UnexpectedElement }
+//            guard let _ = json["rates"]?["CAD"]! else { throw JSONError.UnexpectedElement }
+//            guard let _ = json["rates"]?["GBP"]! else { throw JSONError.UnexpectedElement }
+//            guard let _ = json["rates"]?["JPY"]! else { throw JSONError.UnexpectedElement }
+//            guard let _ = json["rates"]?["USD"]! else { throw JSONError.UnexpectedElement }
+            
+            handleRequestSuccess(json: json)
             
         } catch let error as JSONError {
-            handleRequestFailed(error.rawValue)
+            handleRequestFailed(message: error.rawValue)
         } catch {
             print(error)
         }
@@ -71,7 +73,7 @@ class DataManager:NSObject, NSURLConnectionDelegate {
     {
         if (delegate != nil)
         {
-            delegate!.jsonLoaded(json)
+            delegate!.jsonLoaded(json: json)
         }
         
     }
@@ -79,7 +81,7 @@ class DataManager:NSObject, NSURLConnectionDelegate {
     {
         if (delegate != nil)
         {
-            delegate!.jsonFailed(message)
+            delegate!.jsonFailed(message: message)
         }
     }
     
